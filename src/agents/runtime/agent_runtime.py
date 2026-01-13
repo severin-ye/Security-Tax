@@ -155,7 +155,7 @@ class AgentRuntime:
                     
                     # Log tool usage
                     self.logger.log_event(Event(
-                        event_type=EventType.TOOL_CALL,
+                        event_type=EventType.TOOL_CALLED,
                         step=step_number,
                         agent=self.name,
                         details={"tools": [tc.get("name") for tc in response.tool_calls]}
@@ -205,14 +205,21 @@ class AgentRuntime:
         for tool in self.tools:
             if tool.name == tool_name:
                 try:
-                    # Execute tool (sync or async)
-                    if asyncio.iscoroutinefunction(tool.func):
+                    # Execute tool using ainvoke for async execution
+                    if hasattr(tool, 'ainvoke'):
+                        result = await tool.ainvoke(tool_args)
+                    elif hasattr(tool, 'invoke'):
+                        result = tool.invoke(tool_args)
+                    elif asyncio.iscoroutinefunction(tool.func):
                         result = await tool.func(**tool_args)
                     else:
                         result = tool.func(**tool_args)
                     
                     return str(result)
                 except Exception as e:
+                    self.logger.error(f"Tool {tool_name} execution error: {e}")
+                    import traceback
+                    traceback.print_exc()
                     return f"Error executing {tool_name}: {str(e)}"
         
         return f"Tool {tool_name} not found"

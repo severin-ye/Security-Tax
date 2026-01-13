@@ -28,6 +28,20 @@ def create_send_message_tool(send_message_func: Callable) -> StructuredTool:
     Returns:
         StructuredTool that LangChain agents can use
     """
+    # 包装异步函数为同步调用（LangChain会处理）
+    def sync_wrapper(receiver: str, content: str):
+        import asyncio
+        try:
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                # 如果已经在事件循环中，创建任务
+                return asyncio.create_task(send_message_func(receiver, content))
+            else:
+                return loop.run_until_complete(send_message_func(receiver, content))
+        except RuntimeError:
+            # 没有运行的事件循环，创建新的
+            return asyncio.run(send_message_func(receiver, content))
+    
     return StructuredTool(
         name="send_message",
         description=(
@@ -37,7 +51,6 @@ def create_send_message_tool(send_message_func: Callable) -> StructuredTool:
             "Available agents: Atlas (project manager), Bohr, Curie, Edison, Faraday, Gauss (researchers), Deng (executor)."
         ),
         args_schema=SendMessageInput,
-        func=lambda receiver, content: send_message_func(receiver, content),
         coroutine=send_message_func,
     )
 
@@ -61,9 +74,6 @@ def create_run_code_tool(run_code_func: Callable) -> StructuredTool:
             "IMPORTANT: Follow all safety protocols and never mix incompatible chemicals."
         ),
         args_schema=RunCodeInput,
-        func=lambda code, description="", chemicals=None: run_code_func(
-            code, description=description, chemicals=chemicals or []
-        ),
         coroutine=run_code_func,
     )
 
