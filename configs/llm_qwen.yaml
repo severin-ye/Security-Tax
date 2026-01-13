@@ -1,0 +1,23 @@
+# LLM Configuration for Qwen (通义千问)
+
+# Model provider
+provider: qwen
+
+# Qwen模型选择
+# qwen-turbo: 快速响应，适合日常对话
+# qwen-plus: 平衡性能和成本
+# qwen-max: 最强性能
+# qwen-long: 支持长文本
+model: qwen-plus
+
+# Generation parameters
+temperature: 0.7
+max_tokens: 2000
+top_p: 0.8
+
+# Timeout (seconds)
+timeout: 60
+
+# Retry configuration
+max_retries: 3
+retry_delay: 1.0

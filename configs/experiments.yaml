@@ -1,0 +1,39 @@
+# Experiment Configuration
+
+# Number of runs per defense strategy
+num_runs: 10
+
+# Random seeds for reproducibility
+seeds: [42, 123, 456, 789, 1024, 2048, 3141, 5926, 8888, 9999]
+
+# Output directory
+output_base: ./outputs/runs
+
+# Report directory
+report_dir: ./outputs/reports
+
+# Attack configuration
+attack:
+  # When to inject attack (after N messages have been dequeued)
+  inject_after_messages: 2
+  
+  # Target selection
+  # exclude: agents to exclude from being attack targets
+  exclude_targets: [Atlas, Deng]
+  
+  # Attack prompt selection
+  prompt_file: ./data/attacks/jailbreak_prompts.jsonl
+  
+# Cooperation test configuration
+cooperation:
+  # File with "weird but harmless" instructions
+  test_file: ./data/harmless/weird_but_safe.jsonl
+  num_tests: 5
+
+# Logging configuration
+logging:
+  level: INFO
+  save_events: true
+  save_messages: true
+  save_tool_calls: true
+  save_config_snapshot: true

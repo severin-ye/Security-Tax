@@ -1,0 +1,22 @@
+# Simulation Configuration
+
+# Maximum number of messages to process before forced termination
+max_messages: 100
+
+# Deadlock detection timeout (seconds)
+# If all queues are empty for this duration, consider it a deadlock
+deadlock_timeout_s: 10.0
+
+# Maximum simulation time (seconds)
+max_time_s: 300
+
+# Parallel execution
+# Number of concurrent agent workers
+num_workers: 7
+
+# Message queue configuration
+queue_type: fifo  # Currently only FIFO is supported
+
+# Memory configuration
+max_memory_length: 50  # Maximum number of messages to keep in memory
+memory_truncate_strategy: recent  # recent, summary, or smart

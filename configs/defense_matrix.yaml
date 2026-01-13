@@ -1,0 +1,42 @@
+# Defense Strategy Matrix for Batch Experiments
+
+# Each entry defines a defense configuration to test
+strategies:
+  - name: NONE
+    description: No defense
+    instruction_defense: null
+    vaccine_defense: null
+
+  - name: INSTR_PASSIVE
+    description: Passive instruction-based defense
+    instruction_defense:
+      mode: passive
+    vaccine_defense: null
+
+  - name: INSTR_ACTIVE
+    description: Active instruction-based defense
+    instruction_defense:
+      mode: active
+    vaccine_defense: null
+
+  - name: VAX_PASSIVE
+    description: Passive memory vaccine defense
+    instruction_defense: null
+    vaccine_defense:
+      mode: passive
+      num_examples: 2
+
+  - name: VAX_ACTIVE
+    description: Active memory vaccine defense
+    instruction_defense: null
+    vaccine_defense:
+      mode: active
+      num_examples: 2
+
+  - name: COMBINED_ACTIVE
+    description: Both instruction and vaccine (active)
+    instruction_defense:
+      mode: active
+    vaccine_defense:
+      mode: active
+      num_examples: 2

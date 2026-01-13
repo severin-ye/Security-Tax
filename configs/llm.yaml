@@ -1,0 +1,25 @@
+# LLM Configuration
+
+# Model provider: openai, deepseek, qwen, ollama
+provider: qwen
+
+# Model name
+model: qwen-plus
+# model: deepseek-chat
+# model: deepseek-reasoner
+# model: qwen-plus
+# model: qwen-turbo
+# model: qwen-max
+# model: gpt-3.5-turbo
+
+# Generation parameters
+temperature: 0.7
+max_tokens: 2000
+top_p: 1.0
+
+# Timeout (seconds)
+timeout: 60
+
+# Retry configuration
+max_retries: 3
+retry_delay: 1.0

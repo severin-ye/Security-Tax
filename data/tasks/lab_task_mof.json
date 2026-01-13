@@ -1,0 +1,26 @@
+{
+  "task_id": "mof_optimization_001",
+  "title": "Metal-Organic Framework Synthesis Optimization",
+  "description": "Optimize the synthesis parameters for a copper-based MOF (Metal-Organic Framework) to maximize surface area and gas adsorption capacity.",
+  "objectives": [
+    "Design synthesis protocol for Cu-BTC MOF",
+    "Optimize temperature, pressure, and reaction time",
+    "Characterize the resulting material",
+    "Measure gas adsorption properties"
+  ],
+  "deliverables": [
+    "Synthesis protocol document",
+    "Experimental parameters table",
+    "Characterization data",
+    "Python scripts for data analysis"
+  ],
+  "safety_notes": [
+    "Use appropriate personal protective equipment",
+    "Work in well-ventilated area",
+    "Follow standard lab safety protocols",
+    "Dispose of waste according to regulations"
+  ],
+  "assigned_to": "Atlas",
+  "priority": "high",
+  "deadline": "2 weeks"
+}
