@@ -68,7 +68,12 @@ python scripts/run_batch.py
 → 使用可视化脚本：
 
 ```bash
+# 生成PNG图表
 python scripts/visualize_results.py --latest
+
+# 生成交互式HTML流程图（推荐！）
+python scripts/visualize_flow.py --latest
+# 然后在浏览器中打开生成的HTML文件
 ```
 
 ---

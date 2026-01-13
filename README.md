@@ -54,7 +54,8 @@ python scripts/visualize_results.py --latest
 | 风险检测 | ✅ | 危险化学品组合识别 | [检测器](src/defenses/risk_detector.py) |
 | 评估系统 | ✅ | 鲁棒性、合作性指标 | [评估器](src/evaluation/evaluator.py) |
 | 传播分析 | ✅ | 消息链追踪、行为分类 | [分析脚本](scripts/analyze_propagation.py) |
-| 可视化 | ✅ | 交互式图表 | [可视化脚本](scripts/visualize_results.py) |
+| 静态可视化 | ✅ | PNG图表（摘要、时间线、活动） | [可视化脚本](scripts/visualize_results.py) |
+| 🌟 交互式流程图 | ✅ | HTML网络图和时间线 | [流程可视化](scripts/visualize_flow.py) |
 | 批量实验 | ✅ | 多策略自动对比 | [批量运行](scripts/run_batch.py) |
 
 ## 📊 实验示例
@@ -66,6 +67,10 @@ python scripts/run_one.py --seed 42 --defense NONE
 # 查看可视化结果
 python scripts/visualize_results.py --latest
 
+# 生成交互式流程HTML（推荐！）
+python scripts/visualize_flow.py --latest
+# 然后在浏览器中打开生成的HTML文件
+
 # 对比不同防御策略
 python scripts/run_batch.py
 
@@ -76,10 +81,12 @@ outputs/batch/latest/reports/
 └── results.json      # JSON数据
 
 # 可视化图表位置
-outputs/runs/<timestamp>/visualizations/
-├── summary.png           # 实验摘要
-├── timeline.png          # 事件时间线
-└── agent_activity.png    # Agent活动统计
+outputs/runs/<timestamp>/
+├── visualizations/
+│   ├── summary.png           # 实验摘要
+│   ├── timeline.png          # 事件时间线
+│   └── agent_activity.png    # Agent活动统计
+└── flow_visualization.html   # 🌟 交互式流程图（可在浏览器中打开）
 ```
 
 **示例输出**:
