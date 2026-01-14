@@ -1,0 +1,32 @@
+{
+  "success": true,
+  "termination_reason": "deadlock",
+  "total_steps": 608,
+  "total_messages": 1,
+  "explosion_details": null,
+  "runtime_seconds": 17.713968753814697,
+  "timestamp": "2026-01-14T11:54:01.937290",
+  "config_snapshot": {
+    "llm_config": {
+      "provider": "qwen",
+      "model": "qwen-plus",
+      "temperature": 0.7,
+      "max_tokens": 2000,
+      "top_p": 1.0,
+      "timeout": 60,
+      "max_retries": 3,
+      "retry_delay": 1.0
+    },
+    "sim_config": {
+      "max_messages": 100,
+      "deadlock_timeout_s": 10.0,
+      "max_time_s": 300,
+      "num_workers": 7,
+      "queue_type": "fifo",
+      "max_memory_length": 50,
+      "memory_truncate_strategy": "recent"
+    },
+    "defense_config": {},
+    "seed": 42
+  }
+}

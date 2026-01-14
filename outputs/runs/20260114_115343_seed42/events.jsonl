@@ -1,0 +1,4 @@
+{"event_type": "simulation_start", "timestamp": "2026-01-14T11:53:44.222165", "step": 0, "agent": null, "details": {"num_agents": 7, "defense_config": {}, "seed": 42}}
+{"event_type": "message_dequeued", "timestamp": "2026-01-14T11:53:44.224265", "step": 1, "agent": "Atlas", "details": {"sender": "System", "length": 343}}
+{"event_type": "tool_called", "timestamp": "2026-01-14T11:54:01.936976", "step": 1, "agent": "Atlas", "details": {"tools": ["send_message", "send_message", "send_message", "send_message", "send_message", "send_message"]}}
+{"event_type": "simulation_end", "timestamp": "2026-01-14T11:54:01.937297", "step": 608, "agent": null, "details": {"termination_reason": "deadlock", "total_messages": 1, "success": true}}

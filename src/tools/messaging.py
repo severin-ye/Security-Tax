@@ -1,24 +1,27 @@
 """Message passing tool for inter-agent communication"""
 
-from typing import TYPE_CHECKING, Dict, Any
+from typing import TYPE_CHECKING, Dict, Any, Optional
 from src.common.types import Message, MessageRole, ToolCall, ToolCallType
 from datetime import datetime
 
 if TYPE_CHECKING:
     from src.agents.runtime.agent_runtime import AgentRuntime
+    from src.common.logging import SimulationLogger
 
 
 class MessagingTool:
     """Tool for sending messages between agents"""
     
-    def __init__(self, agents_registry: Dict[str, 'AgentRuntime']):
+    def __init__(self, agents_registry: Dict[str, 'AgentRuntime'], logger: Optional['SimulationLogger'] = None):
         """
         Initialize messaging tool with agent registry
         
         Args:
             agents_registry: Dictionary mapping agent names to AgentRuntime instances
+            logger: Optional logger for recording sent messages
         """
         self.agents_registry = agents_registry
+        self.logger = logger
     
     async def send_message(
         self,
@@ -62,6 +65,10 @@ class MessagingTool:
         
         # Enqueue message to receiver's queue
         await receiver_runtime.queue.put(message)
+        
+        # Log the sent message if logger is available
+        if self.logger:
+            self.logger.log_message(message)
         
         return {
             "success": True,

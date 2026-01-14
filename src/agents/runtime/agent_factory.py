@@ -95,7 +95,7 @@ class AgentFactory:
         
         # Create messaging function for this agent
         if not self.messaging_tool:
-            self.messaging_tool = MessagingTool(agents_registry)
+            self.messaging_tool = MessagingTool(agents_registry, self.logger)
         
         send_message_func = create_send_message_function(
             self.messaging_tool,
