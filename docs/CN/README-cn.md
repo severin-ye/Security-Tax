@@ -2,7 +2,7 @@
 
 > 基于LangChain 1.0的多Agent安全税系统完整复现
 
-[English](../../README.md) | [中文](#chinese)
+[EN](../../README.md) | **CN**
 
 ## 🎉 项目状态：全部完成
 
@@ -48,15 +48,15 @@ python scripts/visualize_results.py --latest
 | 功能 | 状态 | 说明 | 文档链接 |
 |------|------|------|---------|
 | 多Agent协作 | ✅ | 7个Agent（Atlas + 5研究员 + Deng） | [设计文档](design/论文核心逻辑分析.md) |
-| 攻击注入 | ✅ | 12种越狱提示词，第2消息后注入 | [攻击提示词](src/attacks/prompts.py) |
-| 指令防御 | ✅ | 被动/主动模式 | [防御设计](design/安全疫苗设计.md) |
-| 疫苗防御 | ✅ | 被动/主动模式 | [疫苗机制](src/defenses/vaccine.py) |
-| 风险检测 | ✅ | 危险化学品组合识别 | [检测器](src/defenses/risk_detector.py) |
-| 评估系统 | ✅ | 鲁棒性、合作性指标 | [评估器](src/evaluation/evaluator.py) |
-| 传播分析 | ✅ | 消息链追踪、行为分类 | [分析脚本](scripts/analyze_propagation.py) |
-| 静态可视化 | ✅ | PNG图表（摘要、时间线、活动） | [可视化脚本](scripts/visualize_results.py) |
-| 🌟 交互式流程图 | ✅ | HTML网络图和时间线 | [流程可视化](scripts/visualize_flow.py) |
-| 批量实验 | ✅ | 多策略自动对比 | [批量运行](scripts/run_batch.py) |
+| 攻击注入 | ✅ | 12种越狱提示词，第2消息后注入 | [攻击提示词](../../src/attacks/prompt_bank.py) |
+| 指令防御 | ✅ | 被动/主动模式 | [防御钩子](../../src/agents/runtime/policy_hooks.py) |
+| 疫苗防御 | ✅ | 被动/主动模式 | [疫苗实现](../../src/agents/memory/vaccines.py) |
+| 风险检测 | ✅ | 危险化学品组合识别 | [检测器](../../src/tools/risk_rules.py) |
+| 评估系统 | ✅ | 鲁棒性、合作性指标 | [评估器](../../src/evaluation/robustness.py) |
+| 传播分析 | ✅ | 消息链追踪、行为分类 | [分析脚本](../../src/evaluation/propagation.py) |
+| 静态可视化 | ✅ | PNG图表（摘要、时间线、活动） | [可视化脚本](../../scripts/visualize_results.py) |
+| 🌟 交互式流程图 | ✅ | HTML网络图和时间线 | [流程可视化](../../scripts/visualize_flow.py) |
+| 批量实验 | ✅ | 多策略自动对比 | [批量运行](../../scripts/run_batch.py) |
 
 ## 📊 实验示例
 
@@ -100,9 +100,9 @@ outputs/runs/<timestamp>/
 详细说明请查看 [安全疫苗设计文档](design/安全疫苗设计.md)
 
 - `NONE` - 无防御（基线）
-- `INSTR_PASSIVE` - 被动指令 - 配置: [defense.yaml](configs/defense.yaml)
-- `INSTR_ACTIVE` - 主动指令 - 代码: [instruction.py](src/defenses/instruction.py)
-- `VAX_PASSIVE` - 被动疫苗 - 代码: [vaccine.py](src/defenses/vaccine.py)
+- `INSTR_PASSIVE` - 被动指令 - 配置: [defense_matrix.yaml](../../configs/defense_matrix.yaml)
+- `INSTR_ACTIVE` - 主动指令 - 代码: [policy_hooks.py](../../src/agents/runtime/policy_hooks.py)
+- `VAX_PASSIVE` - 被动疫苗 - 代码: [vaccines.py](../../src/agents/memory/vaccines.py)
 - `VAX_ACTIVE` - 主动疫苗
 - `COMBINED_ACTIVE` - 组合防御
 

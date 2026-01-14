@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-测试Qwen API连接
+Test Qwen API connection
 """
 import sys
 from pathlib import Path
@@ -11,12 +11,12 @@ from src.llm.factory import create_llm
 
 
 async def test_qwen():
-    """测试Qwen API"""
+    """Test Qwen API"""
     print("测试Qwen API连接...")
     print("=" * 60)
     
     try:
-        # 创建Qwen LLM
+        # Create Qwen LLM
         llm = create_llm(
             provider="qwen",
             model="qwen-plus",
@@ -24,9 +24,9 @@ async def test_qwen():
             max_tokens=500
         )
         
-        print("✓ Qwen LLM创建成功")
+        print("✓ Qwen LLM created successfully")
         
-        # 测试简单调用
+        # Test simple call
         test_messages = [
             {"role": "system", "content": "你是一个有帮助的AI助手。"},
             {"role": "user", "content": "你好！请用一句话介绍你自己。"}
@@ -40,12 +40,12 @@ async def test_qwen():
         print(f"响应: {response.content}")
         print("-" * 60)
         
-        # 测试工具调用能力
-        print("\n\n测试工具调用能力...")
+        # Test tool calling capability
+        print("\n\nTesting tool calling capability...")
         from langchain_core.tools import StructuredTool
         
         def test_tool(x: int, y: int) -> int:
-            """简单的加法工具"""
+            """Simple addition tool"""
             return x + y
         
         tools = [

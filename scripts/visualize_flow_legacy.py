@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-生成交互式HTML流程可视化 - 支持中英文双语
-展示多Agent系统的完整运行过程
+Generate interactive HTML workflow visualization - Bilingual support (EN/ZH)
+Display the complete execution process of multi-agent systems
 """
 import json
 import argparse
@@ -9,7 +9,7 @@ from pathlib import Path
 from datetime import datetime
 from typing import List, Dict, Any
 
-# 翻译字典
+# Translation dictionary
 TRANSLATIONS = {
     'zh': {
         'title': '多Agent安全税系统',
@@ -102,7 +102,7 @@ TRANSLATIONS = {
 }
 
 def get_html_template(lang='en'):
-    """获取HTML模板"""
+    """Get HTML template"""
     t = TRANSLATIONS[lang]
     
     return """<!DOCTYPE html>
@@ -1066,13 +1066,13 @@ def get_html_template(lang='en'):
     </div>
     
     <script>
-        // 网络图数据
+        // Network graph data
         const networkData = {{network_data}};
         
-        // 时间线数据
+        // Timeline data
         const timelineData = {{timeline_data}};
         
-        // 翻译数据
+        // Translation data
         const translations = {{translations_json}};
         
         let networkInstance = null;
@@ -1217,7 +1217,7 @@ def get_html_template(lang='en'):
 """
 
 def load_results(run_dir: Path) -> tuple:
-    """加载实验结果"""
+    """Load experiment results"""
     outcomes_file = run_dir / "outcomes.json"
     events_file = run_dir / "events.jsonl"
     messages_file = run_dir / "messages.jsonl"
@@ -1240,13 +1240,13 @@ def load_results(run_dir: Path) -> tuple:
     return outcomes, events, messages
 
 def build_network_data(events: List[Dict], messages: List[Dict], lang='en') -> Dict:
-    """构建网络图数据"""
+    """Build network graph data"""
     t = TRANSLATIONS[lang]
     nodes = []
     edges = []
     node_set = set()
     
-    # 收集所有agent节点
+    # Collect all agent nodes
     for event in events:
         agent = event.get('agent')
         if agent and agent != 'null' and agent not in node_set:
@@ -1258,7 +1258,7 @@ def build_network_data(events: List[Dict], messages: List[Dict], lang='en') -> D
                 'title': f'<b>{t["node_info"]}</b><br>{t["detail_role"]}: {t["agent"]}<br>{agent}'
             })
     
-    # 添加系统节点
+    # Add system node
     if 'System' not in node_set:
         nodes.append({
             'id': 'System',
@@ -1268,7 +1268,7 @@ def build_network_data(events: List[Dict], messages: List[Dict], lang='en') -> D
         })
         node_set.add('System')
     
-    # 添加攻击者节点
+    # Add attacker node
     if '[ADVERSARY]' not in node_set:
         nodes.append({
             'id': '[ADVERSARY]',
@@ -1278,7 +1278,7 @@ def build_network_data(events: List[Dict], messages: List[Dict], lang='en') -> D
         })
         node_set.add('[ADVERSARY]')
     
-    # 构建边（消息流）
+    # Build edges (message flow)
     edge_count = {}
     for msg in messages:
         sender = msg.get('sender')
@@ -1293,7 +1293,7 @@ def build_network_data(events: List[Dict], messages: List[Dict], lang='en') -> D
     for edge_key, count in edge_count.items():
         sender, receiver = edge_key.split('->')
         
-        # 确定颜色
+        # Determine color
         color = '#667eea'
         if sender == '[ADVERSARY]':
             color = '#dc3545'
@@ -1312,7 +1312,7 @@ def build_network_data(events: List[Dict], messages: List[Dict], lang='en') -> D
     return {'nodes': nodes, 'edges': edges}
 
 def build_timeline_data(events: List[Dict], lang='en') -> List[Dict]:
-    """构建时间线数据"""
+    """Build timeline data"""
     t = TRANSLATIONS[lang]
     timeline_items = []
     
@@ -1321,7 +1321,7 @@ def build_timeline_data(events: List[Dict], lang='en') -> List[Dict]:
         timestamp = event['timestamp']
         step = event.get('step', 0)
         
-        # 确定样式
+        # Determine style
         class_name = 'event-normal'
         bg_color = '#667eea'
         
@@ -1333,7 +1333,7 @@ def build_timeline_data(events: List[Dict], lang='en') -> List[Dict]:
         elif etype == 'simulation_end':
             bg_color = '#6c757d'
         
-        # 构建内容
+        # Build content
         content = etype.replace('_', ' ').title()
         if etype == 'attack_injected':
             target = event['details'].get('target', '?')
@@ -1351,7 +1351,7 @@ def build_timeline_data(events: List[Dict], lang='en') -> List[Dict]:
     return timeline_items
 
 def build_events_html(events: List[Dict], lang='en') -> str:
-    """构建事件列表HTML"""
+    """Build event list HTML"""
     t = TRANSLATIONS[lang]
     html_parts = []
     
@@ -1361,12 +1361,12 @@ def build_events_html(events: List[Dict], lang='en') -> str:
         step = event.get('step', 0)
         details = event.get('details', {})
         
-        # 确定样式
+        # Determine style
         item_class = 'event-item'
         if etype == 'attack_injected':
             item_class += ' attack'
         
-        # 构建描述
+        # Build description
         description = ""
         if etype == 'attack_injected':
             target = details.get('target', '?')
@@ -1397,16 +1397,16 @@ def build_events_html(events: List[Dict], lang='en') -> str:
     return ''.join(html_parts)
 
 def build_analysis_html(outcomes: Dict, events: List[Dict], messages: List[Dict], lang='en') -> str:
-    """构建分析HTML"""
+    """Build analysis HTML"""
     t = TRANSLATIONS[lang]
     
-    # 统计各类事件
+    # Count events by type
     event_counts = {}
     for event in events:
         etype = event['event_type']
         event_counts[etype] = event_counts.get(etype, 0) + 1
     
-    # 统计消息流
+    # Count message flows
     message_flows = {}
     for msg in messages:
         sender = msg.get('sender', 'Unknown')
@@ -1414,7 +1414,7 @@ def build_analysis_html(outcomes: Dict, events: List[Dict], messages: List[Dict]
         key = f"{sender} → {receiver}"
         message_flows[key] = message_flows.get(key, 0) + 1
     
-    # 构建HTML
+    # Build HTML
     html = f"""
     <div class="message-flow">
         <h3>📈 {t['event_stats']}</h3>
@@ -1449,27 +1449,27 @@ def build_analysis_html(outcomes: Dict, events: List[Dict], messages: List[Dict]
     return html
 
 def generate_html(outcomes: Dict, events: List[Dict], messages: List[Dict], output_path: Path, lang='en'):
-    """生成HTML可视化"""
+    """Generate HTML visualization"""
     t = TRANSLATIONS[lang]
     
-    # 构建数据
+    # Build data
     network_data = build_network_data(events, messages, lang)
     timeline_data = build_timeline_data(events, lang)
     events_html = build_events_html(events, lang)
     analysis_html = build_analysis_html(outcomes, events, messages, lang)
     
-    # 确定结果颜色
+    # Determine result color
     result_color = '#28a745' if outcomes['success'] else '#dc3545'
     result_text = 'SUCCESS' if outcomes['success'] else 'FAILURE'
     
-    # 获取agent数量
+    # Get agent count
     agents = set()
     for event in events:
         agent = event.get('agent')
         if agent and agent != 'null':
             agents.add(agent)
     
-    # 获取HTML模板并直接用format
+    # Get HTML template and use format directly
     html_template = get_html_template(lang)
     
     try:
@@ -1513,7 +1513,7 @@ def generate_html(outcomes: Dict, events: List[Dict], messages: List[Dict], outp
         print(f"Missing template key: {e}")
         return
     
-    # 写入文件
+    # Write to file
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(html)
     
@@ -1528,44 +1528,44 @@ def main():
     
     args = parser.parse_args()
     
-    # 确定运行目录
+    # Determine run directory
     if args.latest:
         runs_dir = Path('outputs/runs')
         run_dirs = sorted(runs_dir.glob('*'), key=lambda x: x.stat().st_mtime, reverse=True)
         if not run_dirs:
-            print("❌ 未找到运行结果")
+            print("❌ No run results found")
             return
         run_dir = run_dirs[0]
     elif args.run_dir:
         run_dir = Path(args.run_dir)
     else:
-        print("请指定 --run-dir 或 --latest")
+        print("Please specify --run-dir or --latest")
         return
     
-    print(f"📂 读取运行结果: {run_dir}")
+    print(f"📂 Loading run results: {run_dir}")
     
-    # 加载数据
+    # Load data
     outcomes, events, messages = load_results(run_dir)
     
-    # 确定输出目录
+    # Determine output directory
     if args.output:
         output_dir = Path(args.output)
     else:
         output_dir = run_dir
     
-    # 生成两个版本的HTML
-    print("\n生成中英文双语版本...")
+    # Generate both language versions of HTML
+    print("\nGenerating bilingual versions (EN/ZH)...")
     
     # 英文版本（默认）
     output_path_en = output_dir / 'flow_visualization.html'
     generate_html(outcomes, events, messages, output_path_en, lang='en')
     
-    # 中文版本
+    # Chinese version
     output_path_cn = output_dir / 'flow_visualization-CN.html'
     generate_html(outcomes, events, messages, output_path_cn, lang='zh')
     
-    print(f"\n🎉 生成完成！")
-    print(f"\n在浏览器中打开:")
+    print(f"\n🎉 Generation complete!")
+    print(f"\nOpen in browser:")
     print(f"   English: file://{output_path_en.absolute()}")
     print(f"   中文:     file://{output_path_cn.absolute()}")
 

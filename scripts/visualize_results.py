@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-可视化实验结果
+Visualize experiment results
 """
 import json
 import argparse
@@ -8,26 +8,26 @@ from pathlib import Path
 from datetime import datetime
 import matplotlib.pyplot as plt
 import matplotlib
-matplotlib.use('Agg')  # 非交互式后端
+matplotlib.use('Agg')  # Non-interactive backend
 
 def load_results(run_dir: Path):
-    """加载实验结果"""
+    """Load experiment results"""
     outcomes_file = run_dir / "outcomes.json"
     events_file = run_dir / "events.jsonl"
     messages_file = run_dir / "messages.jsonl"
     
-    # 加载outcomes
+    # Load outcomes
     with open(outcomes_file) as f:
         outcomes = json.load(f)
     
-    # 加载events
+    # Load events
     events = []
     if events_file.exists():
         with open(events_file) as f:
             for line in f:
                 events.append(json.loads(line))
     
-    # 加载messages
+    # Load messages
     messages = []
     if messages_file.exists():
         with open(messages_file) as f:
@@ -37,10 +37,10 @@ def load_results(run_dir: Path):
     return outcomes, events, messages
 
 def visualize_timeline(events, messages, output_path: Path):
-    """创建时间线可视化"""
+    """Create timeline visualization"""
     fig, ax = plt.subplots(figsize=(14, 8))
     
-    # 按类型分类事件
+    # Classify events by type
     event_types = {}
     for event in events:
         etype = event['event_type']
@@ -48,7 +48,7 @@ def visualize_timeline(events, messages, output_path: Path):
             event_types[etype] = []
         event_types[etype].append(event)
     
-    # 颜色映射
+    # Color mapping
     colors = {
         'simulation_start': '#2ecc71',
         'simulation_end': '#e74c3c',
@@ -57,7 +57,7 @@ def visualize_timeline(events, messages, output_path: Path):
         'attack_injected': '#e67e22',
     }
     
-    # 绘制事件
+    # Plot events
     y_position = 0
     for etype, evts in event_types.items():
         steps = [e['step'] for e in evts]
@@ -78,11 +78,11 @@ def visualize_timeline(events, messages, output_path: Path):
     print(f"Timeline saved to: {output_path}")
 
 def visualize_summary(outcomes, output_path: Path):
-    """创建摘要可视化"""
+    """Create summary visualization"""
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
     fig.suptitle('Simulation Summary', fontsize=16, fontweight='bold')
     
-    # 子图1: 基本统计
+    # Subplot 1: Basic statistics
     ax = axes[0, 0]
     stats = {
         'Total Steps': outcomes['total_steps'],
@@ -99,7 +99,7 @@ def visualize_summary(outcomes, output_path: Path):
     for i, v in enumerate(values):
         ax.text(v, i, f' {v}', va='center', fontsize=9)
     
-    # 子图2: 结果状态
+    # Subplot 2: Result status
     ax = axes[0, 1]
     result_colors = {'SUCCESS': '#2ecc71', 'FAILURE': '#e74c3c'}
     result = 'SUCCESS' if outcomes['success'] else 'FAILURE'
@@ -107,7 +107,7 @@ def visualize_summary(outcomes, output_path: Path):
            autopct='%1.0f%%', startangle=90)
     ax.set_title('Simulation Result', fontweight='bold')
     
-    # 子图3: 配置信息
+    # Subplot 3: Configuration info
     ax = axes[1, 0]
     ax.axis('off')
     config_text = f"""Configuration:
@@ -121,7 +121,7 @@ def visualize_summary(outcomes, output_path: Path):
            verticalalignment='center')
     ax.set_title('Configuration Details', fontweight='bold', loc='left')
     
-    # 子图4: 终止原因
+    # Subplot 4: Termination reason
     ax = axes[1, 1]
     termination = outcomes['termination_reason']
     term_colors = {
@@ -141,7 +141,7 @@ def visualize_summary(outcomes, output_path: Path):
     print(f"Summary saved to: {output_path}")
 
 def visualize_agent_activity(events, output_path: Path):
-    """创建agent活动可视化"""
+    """Create agent activity visualization"""
     # 统计每个agent的活动
     agent_activities = {}
     for event in events:
@@ -193,7 +193,7 @@ def main():
     
     args = parser.parse_args()
     
-    # 确定run目录
+    # Determine run directory
     if args.latest:
         runs_dir = Path('outputs/runs')
         run_dirs = sorted(runs_dir.glob('*'), key=lambda x: x.stat().st_mtime, reverse=True)
@@ -209,10 +209,10 @@ def main():
     
     print(f"Visualizing results from: {run_dir}")
     
-    # 加载数据
+    # Load data
     outcomes, events, messages = load_results(run_dir)
     
-    # 确定输出目录
+    # Determine output directory
     if args.output:
         output_dir = Path(args.output)
     else:
@@ -220,7 +220,7 @@ def main():
     
     output_dir.mkdir(parents=True, exist_ok=True)
     
-    # 生成可视化
+    # Generate visualizations
     print("\nGenerating visualizations...")
     visualize_summary(outcomes, output_dir / 'summary.png')
     visualize_timeline(events, messages, output_dir / 'timeline.png')

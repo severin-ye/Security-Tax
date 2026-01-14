@@ -2,7 +2,7 @@
 
 > Complete reproduction of multi-agent security tax system based on LangChain 1.0
 
-[English](#english) | [中文](docs/CN/README-cn.md)
+**EN** | [CN](docs/CN/README-cn.md)
 
 ## 🎉 Project Status: Fully Completed
 
@@ -37,23 +37,23 @@ python scripts/visualize_results.py --latest
 
 ## 📖 Documentation
 
-- **[📚 Documentation Hub](docs/EN/README.md)** - Complete documentation navigation
+- **[📚 中文文档](docs/CN/README.md)** - Chinese documentation navigation
 - **[Quick Start Guide](docs/EN/guides/QUICKSTART.md)** - Complete usage tutorial
 - **[Qwen Guide](docs/EN/guides/QWEN_GUIDE.md)** - Qwen integration guide
 - **[Project Completion Report](docs/EN/references/PROJECT_COMPLETE.md)** - Feature checklist
-- **[Paper Analysis](docs/CN/design/论文核心逻辑分析.md)** - Theoretical foundation
+- **[Paper Analysis](docs/EN/design/paper_analysis.md)** - Theoretical foundation
 
 ## 🎯 Core Features
 
 | Feature | Status | Description | Documentation |
 |---------|--------|-------------|---------------|
-| Multi-Agent Collaboration | ✅ | 7 Agents (Atlas + 5 Researchers + Deng) | [Design Doc](docs/CN/design/论文核心逻辑分析.md) |
-| Attack Injection | ✅ | 12 jailbreak prompts, injected after 2nd message | [Attack Prompts](src/attacks/prompts.py) |
-| Instruction Defense | ✅ | Passive/Active modes | [Defense Design](docs/CN/design/安全疫苗设计.md) |
-| Vaccine Defense | ✅ | Passive/Active modes | [Vaccine Mechanism](src/defenses/vaccine.py) |
-| Risk Detection | ✅ | Dangerous chemical combination identification | [Detector](src/defenses/risk_detector.py) |
-| Evaluation System | ✅ | Robustness & Cooperation metrics | [Evaluator](src/evaluation/evaluator.py) |
-| Propagation Analysis | ✅ | Message chain tracking, behavior classification | [Analysis Script](scripts/analyze_propagation.py) |
+| Multi-Agent Collaboration | ✅ | 7 Agents (Atlas + 5 Researchers + Deng) | [Design Doc](docs/EN/design/paper_analysis.md) |
+| Attack Injection | ✅ | 12 jailbreak prompts, injected after 2nd message | [Attack Prompts](src/attacks/prompt_bank.py) |
+| Instruction Defense | ✅ | Passive/Active modes | [Defense Design](docs/EN/design/vaccine_design.md) |
+| Vaccine Defense | ✅ | Passive/Active modes | [Vaccine Implementation](src/agents/memory/vaccines.py) |
+| Risk Detection | ✅ | Dangerous chemical combination identification | [Detector](src/tools/risk_rules.py) |
+| Evaluation System | ✅ | Robustness & Cooperation metrics | [Evaluator](src/evaluation/robustness.py) |
+| Propagation Analysis | ✅ | Message chain tracking, behavior classification | [Analysis Script](src/evaluation/propagation.py) |
 | Static Visualization | ✅ | PNG charts (summary, timeline, activity) | [Visualization Script](scripts/visualize_results.py) |
 | 🌟 Interactive Flow Diagram | ✅ | HTML network graph and timeline | [Flow Visualization](scripts/visualize_flow.py) |
 | Batch Experiments | ✅ | Multi-strategy automated comparison | [Batch Runner](scripts/run_batch.py) |
@@ -97,12 +97,12 @@ outputs/runs/<timestamp>/
 
 ## 🛡️ Defense Strategies
 
-For detailed information, see [Security Vaccine Design Document](docs/CN/design/安全疫苗设计.md)
+For detailed information, see [Security Vaccine Design Document](docs/EN/design/vaccine_design.md)
 
 - `NONE` - No defense (baseline)
-- `INSTR_PASSIVE` - Passive instruction - Config: [defense.yaml](configs/defense.yaml)
-- `INSTR_ACTIVE` - Active instruction - Code: [instruction.py](src/defenses/instruction.py)
-- `VAX_PASSIVE` - Passive vaccine - Code: [vaccine.py](src/defenses/vaccine.py)
+- `INSTR_PASSIVE` - Passive instruction - Config: [defense_matrix.yaml](configs/defense_matrix.yaml)
+- `INSTR_ACTIVE` - Active instruction - Code: [policy_hooks.py](src/agents/runtime/policy_hooks.py)
+- `VAX_PASSIVE` - Passive vaccine - Code: [vaccines.py](src/agents/memory/vaccines.py)
 - `VAX_ACTIVE` - Active vaccine
 - `COMBINED_ACTIVE` - Combined defense
 
@@ -152,7 +152,7 @@ Test coverage: [Test Documentation](tests/)
     └── batch/           # Batch experiment results
 ```
 
-For complete documentation, visit: [docs/EN/README.md](docs/EN/README.md)
+For complete documentation, see links above.
 
 ## 📞 Getting Help
 
