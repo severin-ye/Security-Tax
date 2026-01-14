@@ -1,166 +1,166 @@
 # Multi-Agent Security Tax
 
-> 基于LangChain 1.0的多Agent安全税系统完整复现
+> Complete reproduction of multi-agent security tax system based on LangChain 1.0
 
-[English](#english) | [中文](#chinese)
+[English](#english) | [中文](docs/README-cn.md)
 
-## 🎉 项目状态：全部完成
+## 🎉 Project Status: Fully Completed
 
-✅ 核心系统（7个Agent + 工具 + 调度器）  
-✅ 攻击注入系统（12种越狱提示词）  
-✅ 双层防御机制（指令 + 疫苗）  
-✅ 完整评估系统（鲁棒性 + 合作性）  
-✅ 传播分析和可视化  
-✅ 批量实验运行器  
-✅ Qwen (通义千问) 支持  
-✅ 所有测试通过 ✓
+✅ Core System (7 Agents + Tools + Scheduler)  
+✅ Attack Injection System (12 Jailbreak Prompts)  
+✅ Dual-Layer Defense Mechanism (Instruction + Vaccine)  
+✅ Complete Evaluation System (Robustness + Cooperation)  
+✅ Propagation Analysis and Visualization  
+✅ Batch Experiment Runner  
+✅ Qwen (通义千问) Support  
+✅ All Tests Passing ✓
 
-## 🚀 30秒快速开始
+## 🚀 Quick Start (30 seconds)
 
 ```bash
-# 1. 安装
+# 1. Installation
 git clone <repo> && cd SKKU
 python3 -m venv venv && source venv/bin/activate
 pip install -e .
 
-# 2. 配置API密钥
+# 2. Configure API Keys
 cp .env.example .env
-# 编辑.env添加 OPENAI_API_KEY / DEEPSEEK_API_KEY / QWEN_API_KEY
+# Edit .env to add OPENAI_API_KEY / DEEPSEEK_API_KEY / QWEN_API_KEY
 
-# 3. 运行第一个实验
+# 3. Run Your First Experiment
 python scripts/run_one.py --seed 42 --defense NONE
 
-# 4. 查看结果和可视化
+# 4. View Results and Visualizations
 cat outputs/runs/latest/outcomes.json
 python scripts/visualize_results.py --latest
 ```
 
-## 📖 详细文档
+## 📖 Documentation
 
-- **[📚 文档中心](docs/README.md)** - 完整文档导航
-- **[快速开始](docs/guides/QUICKSTART.md)** - 完整使用教程
-- **[Qwen指南](docs/guides/QWEN_GUIDE.md)** - 通义千问使用指南
-- **[项目完成报告](docs/references/PROJECT_COMPLETE.md)** - 功能清单
-- **[论文分析](docs/design/论文核心逻辑分析.md)** - 理论基础
+- **[📚 Documentation Hub](docs/README.md)** - Complete documentation navigation
+- **[Quick Start Guide](docs/guides/QUICKSTART.md)** - Complete usage tutorial
+- **[Qwen Guide](docs/guides/QWEN_GUIDE.md)** - Qwen integration guide
+- **[Project Completion Report](docs/references/PROJECT_COMPLETE.md)** - Feature checklist
+- **[Paper Analysis](docs/design/论文核心逻辑分析.md)** - Theoretical foundation
 
-## 🎯 核心功能
+## 🎯 Core Features
 
-| 功能 | 状态 | 说明 | 文档链接 |
-|------|------|------|---------|
-| 多Agent协作 | ✅ | 7个Agent（Atlas + 5研究员 + Deng） | [设计文档](docs/design/论文核心逻辑分析.md) |
-| 攻击注入 | ✅ | 12种越狱提示词，第2消息后注入 | [攻击提示词](src/attacks/prompts.py) |
-| 指令防御 | ✅ | 被动/主动模式 | [防御设计](docs/design/安全疫苗设计.md) |
-| 疫苗防御 | ✅ | 被动/主动模式 | [疫苗机制](src/defenses/vaccine.py) |
-| 风险检测 | ✅ | 危险化学品组合识别 | [检测器](src/defenses/risk_detector.py) |
-| 评估系统 | ✅ | 鲁棒性、合作性指标 | [评估器](src/evaluation/evaluator.py) |
-| 传播分析 | ✅ | 消息链追踪、行为分类 | [分析脚本](scripts/analyze_propagation.py) |
-| 静态可视化 | ✅ | PNG图表（摘要、时间线、活动） | [可视化脚本](scripts/visualize_results.py) |
-| 🌟 交互式流程图 | ✅ | HTML网络图和时间线 | [流程可视化](scripts/visualize_flow.py) |
-| 批量实验 | ✅ | 多策略自动对比 | [批量运行](scripts/run_batch.py) |
+| Feature | Status | Description | Documentation |
+|---------|--------|-------------|---------------|
+| Multi-Agent Collaboration | ✅ | 7 Agents (Atlas + 5 Researchers + Deng) | [Design Doc](docs/design/论文核心逻辑分析.md) |
+| Attack Injection | ✅ | 12 jailbreak prompts, injected after 2nd message | [Attack Prompts](src/attacks/prompts.py) |
+| Instruction Defense | ✅ | Passive/Active modes | [Defense Design](docs/design/安全疫苗设计.md) |
+| Vaccine Defense | ✅ | Passive/Active modes | [Vaccine Mechanism](src/defenses/vaccine.py) |
+| Risk Detection | ✅ | Dangerous chemical combination identification | [Detector](src/defenses/risk_detector.py) |
+| Evaluation System | ✅ | Robustness & Cooperation metrics | [Evaluator](src/evaluation/evaluator.py) |
+| Propagation Analysis | ✅ | Message chain tracking, behavior classification | [Analysis Script](scripts/analyze_propagation.py) |
+| Static Visualization | ✅ | PNG charts (summary, timeline, activity) | [Visualization Script](scripts/visualize_results.py) |
+| 🌟 Interactive Flow Diagram | ✅ | HTML network graph and timeline | [Flow Visualization](scripts/visualize_flow.py) |
+| Batch Experiments | ✅ | Multi-strategy automated comparison | [Batch Runner](scripts/run_batch.py) |
 
-## 📊 实验示例
+## 📊 Experiment Examples
 
 ```bash
-# 单次实验
+# Single experiment
 python scripts/run_one.py --seed 42 --defense NONE
 
-# 查看可视化结果
+# View visualization results
 python scripts/visualize_results.py --latest
 
-# 生成交互式流程HTML（推荐！）
+# Generate interactive flow HTML (Recommended!)
 python scripts/visualize_flow.py --latest
-# 然后在浏览器中打开生成的HTML文件
+# Then open the generated HTML file in your browser
 
-# 对比不同防御策略
+# Compare different defense strategies
 python scripts/run_batch.py
 
-# 生成的报告位置
+# Generated report locations
 outputs/batch/latest/reports/
-├── results.csv       # CSV表格
-├── results.md        # Markdown报告
-└── results.json      # JSON数据
+├── results.csv       # CSV table
+├── results.md        # Markdown report
+└── results.json      # JSON data
 
-# 可视化图表位置
+# Visualization chart locations
 outputs/runs/<timestamp>/
 ├── visualizations/
-│   ├── summary.png           # 实验摘要
-│   ├── timeline.png          # 事件时间线
-│   └── agent_activity.png    # Agent活动统计
-└── flow_visualization.html   # 🌟 交互式流程图（可在浏览器中打开）
+│   ├── summary.png           # Experiment summary
+│   ├── timeline.png          # Event timeline
+│   └── agent_activity.png    # Agent activity statistics
+└── flow_visualization.html   # 🌟 Interactive flow diagram (open in browser)
 ```
 
-**示例输出**:
+**Example Output**:
 | Defense Strategy | Explosion Rate | Success Rate |
 |-----------------|----------------|--------------|
 | NONE | 85.0% | 15.0% |
 | VAX_ACTIVE | 20.0% | 75.0% |
 
-## 🛡️ 防御策略
+## 🛡️ Defense Strategies
 
-详细说明请查看 [安全疫苗设计文档](docs/design/安全疫苗设计.md)
+For detailed information, see [Security Vaccine Design Document](docs/design/安全疫苗设计.md)
 
-- `NONE` - 无防御（基线）
-- `INSTR_PASSIVE` - 被动指令 - 配置: [defense.yaml](configs/defense.yaml)
-- `INSTR_ACTIVE` - 主动指令 - 代码: [instruction.py](src/defenses/instruction.py)
-- `VAX_PASSIVE` - 被动疫苗 - 代码: [vaccine.py](src/defenses/vaccine.py)
-- `VAX_ACTIVE` - 主动疫苗
-- `COMBINED_ACTIVE` - 组合防御
+- `NONE` - No defense (baseline)
+- `INSTR_PASSIVE` - Passive instruction - Config: [defense.yaml](configs/defense.yaml)
+- `INSTR_ACTIVE` - Active instruction - Code: [instruction.py](src/defenses/instruction.py)
+- `VAX_PASSIVE` - Passive vaccine - Code: [vaccine.py](src/defenses/vaccine.py)
+- `VAX_ACTIVE` - Active vaccine
+- `COMBINED_ACTIVE` - Combined defense
 
-## 🧪 技术栈
+## 🧪 Technology Stack
 
 - Python 3.12+ | LangChain 1.0+ | Pydantic 2.0+
 - asyncio | YAML | Jinja2
-- matplotlib（可视化）
-- 支持的LLM: OpenAI / DeepSeek / Qwen
+- matplotlib (visualization)
+- Supported LLMs: OpenAI / DeepSeek / Qwen
 
-## ✅ 测试
+## ✅ Testing
 
 ```bash
-# 运行测试
-python tests/test_basic.py           # 4/4通过
-python tests/test_comprehensive.py   # 2/2通过
+# Run tests
+python tests/test_basic.py           # 4/4 passing
+python tests/test_comprehensive.py   # 2/2 passing
 
-# 查看测试代码
+# View test code
 cat tests/test_basic.py
 ```
 
-测试覆盖：[测试文档](tests/)
+Test coverage: [Test Documentation](tests/)
 
-## 📁 项目结构
+## 📁 Project Structure
 
 ```
 .
 ├── src/
-│   ├── agents/          # Agent运行时和配置
-│   ├── attacks/         # 攻击注入系统
-│   ├── defenses/        # 防御机制
-│   ├── evaluation/      # 评估和分析
-│   ├── llm/             # LLM工厂
-│   ├── orchestrator/    # 仿真协调器
-│   └── tools/           # Agent工具集
-├── configs/             # YAML配置文件
-├── data/                # 数据文件
-├── scripts/             # 实验脚本
-├── tests/               # 测试套件
-├── docs/                # 📚 完整文档
-│   ├── design/          # 设计文档
-│   ├── guides/          # 使用指南
-│   ├── tutorials/       # 教程
-│   └── references/      # 参考资料
-└── outputs/             # 实验输出
-    ├── runs/            # 单次运行结果
-    └── batch/           # 批量实验结果
+│   ├── agents/          # Agent runtime and configuration
+│   ├── attacks/         # Attack injection system
+│   ├── defenses/        # Defense mechanisms
+│   ├── evaluation/      # Evaluation and analysis
+│   ├── llm/             # LLM factory
+│   ├── orchestrator/    # Simulation coordinator
+│   └── tools/           # Agent toolset
+├── configs/             # YAML configuration files
+├── data/                # Data files
+├── scripts/             # Experiment scripts
+├── tests/               # Test suite
+├── docs/                # 📚 Complete documentation
+│   ├── design/          # Design documents
+│   ├── guides/          # User guides
+│   ├── tutorials/       # Tutorials
+│   └── references/      # Reference materials
+└── outputs/             # Experiment outputs
+    ├── runs/            # Single run results
+    └── batch/           # Batch experiment results
 ```
 
-完整文档请访问：[docs/README.md](docs/README.md)
+For complete documentation, visit: [docs/README.md](docs/README.md)
 
-## 📞 获取帮助
+## 📞 Getting Help
 
-遇到问题？
-1. 查看 [QUICKSTART.md](QUICKSTART.md)
-2. 运行 `python tests/test_comprehensive.py`
-3. 检查 `outputs/runs/latest/events.jsonl`
+Having issues?
+1. Check [QUICKSTART.md](docs/guides/QUICKSTART.md)
+2. Run `python tests/test_comprehensive.py`
+3. Review `outputs/runs/latest/events.jsonl`
 
 ---
 
-**License**: MIT | **Purpose**: 研究用途
+**License**: MIT | **Purpose**: Research Use
