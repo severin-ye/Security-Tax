@@ -1,8 +1,8 @@
 # Multi-Agent Security Tax
 
-> Complete reproduction of multi-agent security tax system based on LangChain 1.0
+> Complete reproduction of Multi-Agent Security Tax system based on LangChain 1.0
 
-[English](#english) | [中文](docs/CN/README-cn.md)
+[English](#english) | [中文](../CN/README-cn.md)
 
 ## 🎉 Project Status: Fully Completed
 
@@ -37,26 +37,26 @@ python scripts/visualize_results.py --latest
 
 ## 📖 Documentation
 
-- **[📚 Documentation Hub](docs/EN/README.md)** - Complete documentation navigation
-- **[Quick Start Guide](docs/EN/guides/QUICKSTART.md)** - Complete usage tutorial
-- **[Qwen Guide](docs/EN/guides/QWEN_GUIDE.md)** - Qwen integration guide
-- **[Project Completion Report](docs/EN/references/PROJECT_COMPLETE.md)** - Feature checklist
-- **[Paper Analysis](docs/CN/design/论文核心逻辑分析.md)** - Theoretical foundation
+- **[📚 Documentation Hub](README.md)** - Complete documentation navigation
+- **[Quick Start Guide](guides/QUICKSTART.md)** - Complete usage tutorial
+- **[Qwen Guide](guides/QWEN_GUIDE.md)** - Qwen integration guide
+- **[Project Completion Report](references/PROJECT_COMPLETE.md)** - Feature checklist
+- **[Paper Analysis](design/paper_analysis.md)** - Theoretical foundation
 
 ## 🎯 Core Features
 
 | Feature | Status | Description | Documentation |
 |---------|--------|-------------|---------------|
-| Multi-Agent Collaboration | ✅ | 7 Agents (Atlas + 5 Researchers + Deng) | [Design Doc](docs/CN/design/论文核心逻辑分析.md) |
-| Attack Injection | ✅ | 12 jailbreak prompts, injected after 2nd message | [Attack Prompts](src/attacks/prompts.py) |
-| Instruction Defense | ✅ | Passive/Active modes | [Defense Design](docs/CN/design/安全疫苗设计.md) |
-| Vaccine Defense | ✅ | Passive/Active modes | [Vaccine Mechanism](src/defenses/vaccine.py) |
-| Risk Detection | ✅ | Dangerous chemical combination identification | [Detector](src/defenses/risk_detector.py) |
-| Evaluation System | ✅ | Robustness & Cooperation metrics | [Evaluator](src/evaluation/evaluator.py) |
-| Propagation Analysis | ✅ | Message chain tracking, behavior classification | [Analysis Script](scripts/analyze_propagation.py) |
-| Static Visualization | ✅ | PNG charts (summary, timeline, activity) | [Visualization Script](scripts/visualize_results.py) |
-| 🌟 Interactive Flow Diagram | ✅ | HTML network graph and timeline | [Flow Visualization](scripts/visualize_flow.py) |
-| Batch Experiments | ✅ | Multi-strategy automated comparison | [Batch Runner](scripts/run_batch.py) |
+| Multi-Agent Collaboration | ✅ | 7 Agents (Atlas + 5 Researchers + Deng) | [Design Doc](design/paper_analysis.md) |
+| Attack Injection | ✅ | 12 jailbreak prompts, injected after 2nd message | [Attack Prompts](../src/attacks/prompts.py) |
+| Instruction Defense | ✅ | Passive/Active modes | [Defense Design](design/vaccine_design.md) |
+| Vaccine Defense | ✅ | Passive/Active modes | [Vaccine Mechanism](../src/defenses/vaccine.py) |
+| Risk Detection | ✅ | Dangerous chemical combination identification | [Detector](../src/defenses/risk_detector.py) |
+| Evaluation System | ✅ | Robustness & Cooperation metrics | [Evaluator](../src/evaluation/evaluator.py) |
+| Propagation Analysis | ✅ | Message chain tracking, behavior classification | [Analysis Script](../scripts/analyze_propagation.py) |
+| Static Visualization | ✅ | PNG charts (summary, timeline, activity) | [Visualization Script](../scripts/visualize_results.py) |
+| 🌟 Interactive Flow Diagram | ✅ | HTML network graph and timeline | [Flow Visualization](../scripts/visualize_flow.py) |
+| Batch Experiments | ✅ | Multi-strategy automated comparison | [Batch Runner](../scripts/run_batch.py) |
 
 ## 📊 Experiment Examples
 
@@ -97,12 +97,12 @@ outputs/runs/<timestamp>/
 
 ## 🛡️ Defense Strategies
 
-For detailed information, see [Security Vaccine Design Document](docs/CN/design/安全疫苗设计.md)
+For detailed information, see [Security Vaccine Design Document](design/vaccine_design.md)
 
 - `NONE` - No defense (baseline)
-- `INSTR_PASSIVE` - Passive instruction - Config: [defense.yaml](configs/defense.yaml)
-- `INSTR_ACTIVE` - Active instruction - Code: [instruction.py](src/defenses/instruction.py)
-- `VAX_PASSIVE` - Passive vaccine - Code: [vaccine.py](src/defenses/vaccine.py)
+- `INSTR_PASSIVE` - Passive instruction - Config: [defense.yaml](../configs/defense.yaml)
+- `INSTR_ACTIVE` - Active instruction - Code: [instruction.py](../src/defenses/instruction.py)
+- `VAX_PASSIVE` - Passive vaccine - Code: [vaccine.py](../src/defenses/vaccine.py)
 - `VAX_ACTIVE` - Active vaccine
 - `COMBINED_ACTIVE` - Combined defense
 
@@ -124,7 +124,7 @@ python tests/test_comprehensive.py   # 2/2 passing
 cat tests/test_basic.py
 ```
 
-Test coverage: [Test Documentation](tests/)
+Test coverage: [Test Documentation](../tests/)
 
 ## 📁 Project Structure
 
@@ -152,12 +152,12 @@ Test coverage: [Test Documentation](tests/)
     └── batch/           # Batch experiment results
 ```
 
-For complete documentation, visit: [docs/EN/README.md](docs/EN/README.md)
+For complete documentation, visit: [docs/README.md](README.md)
 
 ## 📞 Getting Help
 
 Having issues?
-1. Check [QUICKSTART.md](docs/EN/guides/QUICKSTART.md)
+1. Check [QUICKSTART.md](guides/QUICKSTART.md)
 2. Run `python tests/test_comprehensive.py`
 3. Review `outputs/runs/latest/events.jsonl`
 
