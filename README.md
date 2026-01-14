@@ -37,7 +37,6 @@ python scripts/visualize_results.py --latest
 
 ## 📖 Documentation
 
-- **[📚 中文文档](docs/CN/README.md)** - Chinese documentation navigation
 - **[Quick Start Guide](docs/EN/guides/QUICKSTART.md)** - Complete usage tutorial
 - **[Qwen Guide](docs/EN/guides/QWEN_GUIDE.md)** - Qwen integration guide
 - **[Project Completion Report](docs/EN/references/PROJECT_COMPLETE.md)** - Feature checklist
