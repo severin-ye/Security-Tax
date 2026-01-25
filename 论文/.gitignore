@@ -1,0 +1,23 @@
+# LaTeX编译产物
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.toc
+*.lof
+*.lot
+
+# Python缓存
+__pycache__/
+*.pyc
+*.pyo
+
+# 编译输出
+output/build/
+
+# 临时文件
+*.tmp
+*~
+.DS_Store
