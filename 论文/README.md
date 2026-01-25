@@ -1,53 +1,58 @@
-# 多智能体安全税论文
+# 多智能体安全税论文 / Multi-Agent Security Tax Research
 
-本目录包含论文的LaTeX源文件、生成脚本和相关文档。
+本项目包含学术论文的多语言版本（中文、韩文）及相关文档。
 
 ## 📁 目录结构
 
 ```
 论文/
-├── README.md                    # 本文件
-├── .gitignore                   # Git忽略规则
-├── 论文初稿_中文.tex            # LaTeX源文件
+├── README.md                    # 项目说明（本文件）
+├── STRUCTURE.md                 # 详细目录结构文档
+├── .gitignore                   # Git忽略配置
 │
-├── figures/                     # 图片资源
-│   ├── architecture.png         # 系统架构图 (256KB)
-│   ├── security_tax.png         # 安全税散点图 (355KB)
-│   └── behavior_distribution.png # 行为分布图 (300KB)
+├── shared/                      # 共享资源
+│   ├── figures/                 # 图片资源（各语言版本共用）
+│   │   ├── architecture.png         # 系统架构图 (256KB)
+│   │   ├── security_tax.png         # 安全税散点图 (355KB)
+│   │   └── behavior_distribution.png # 行为分布图 (300KB)
+│   └── references/              # 参考资料
+│       ├── requirements/        # 论文格式要求
+│       │   ├── 2025_最终论文样式(韩文)..md
+│       │   ├── 2025_审查用_论文投稿样式(韩文).md
+│       │   ├── RAG 기반 시스템의 신뢰성과 Jailbreaking 보안 취약성 분석.hwp
+│       │   └── 教授kakao消息.md
+│       └── *.pdf                # 相关论文资料
 │
-├── scripts/                     # 生成脚本
-│   └── generate_figures.py     # 图表生成脚本
+├── zh-CN/                       # 中文版论文
+│   ├── 论文初稿_中文.tex          # LaTeX源文件
+│   └── output/                  # 编译输出
+│       ├── 论文初稿_中文.pdf      # 最终PDF (7页)
+│       └── build/               # 编译临时文件
+│           ├── *.aux
+│           ├── *.log
+│           └── *.out
 │
-├── output/                      # 编译输出
-│   ├── 论文初稿_中文.pdf        # 最终PDF (1.2MB, 9页)
-│   └── build/                   # 编译中间文件
-│       ├── *.aux
-│       ├── *.log
-│       └── *.out
+├── ko-KR/                       # 韩文版论文（投稿用）
+│   ├── 韩文初稿.tex               # LaTeX源文件
+│   └── output/                  # 编译输出
+│       ├── 韩文初稿.pdf           # 最终PDF (7页, 1.1MB)
+│       └── build/               # 编译临时文件
+│           ├── *.aux
+│           ├── *.log
+│           └── *.out
 │
-├── docs/                        # 文档和报告
-│   ├── COMPILATION_STATUS.md    # 编译状态报告
-│   ├── 参考文献验证报告.md       # 文献验证记录
-│   ├── 图表生成报告.md          # 图表生成说明
-│   └── 论文撰写总结.md          # 撰写总结
-│
-└── references/                  # 参考资料
-    └── requirements/            # 期刊投稿要求
-        ├── 2025_最终论文样式(韩文).md
-        ├── 2025_审查用_论文投稿样式(韩文).md
-        ├── RAG 기반 시스템...hwp  # 参考论文样例
-        └── 教授kakao消息.md
+└── docs/                        # 文档资料
+    └── 目录结构.txt              # 原始目录记录
 ```
 
 ## 🚀 快速开始
 
-### 编译论文
+### 编译韩文版（投稿版本）
 
 ```bash
-# 方法1: XeLaTeX（推荐）
-cd /home/severin/Codelib/SKKU/论文
-xelatex 论文初稿_中文.tex
-xelatex 论文初稿_中文.tex  # 第二次解决交叉引用
+cd ko-KR
+xelatex -interaction=nonstopmode 韩文初稿.tex
+xelatex -interaction=nonstopmode 韩文初稿.tex  # 第二遍解决引用
 
 # 方法2: 使用latexmk自动化
 latexmk -xelatex -synctex=1 -interaction=nonstopmode 论文初稿_中文.tex
@@ -114,24 +119,25 @@ pip install matplotlib numpy
 
 ### 目标期刊
 - **期刊名**: 未来技术融合论文志（Journal of Advanced Technology Convergence）
-- **出版方**: 韩国
-- **级别**: SCOPUS索引
+- **主办方**: 한국융합학회 (Korea Convergence Society)
+- **语言**: 韩文/英文
 
-### 格式要求
-- **页数**: 基本6页（当前9页需压缩）
-- **纸张**: 188mm × 258mm
-- **排版**: 双栏，20mm边距
-- **摘要**: 中英文双语（各7-9行）
-- **字体**: Times New Roman（英文）+ 中文字体
-- **最终格式**: PDF或HWP
+### 韩文版提交前检查清单
+- [ ] 所有表格和图片标题改为英文
+- [ ] 添加首页期刊信息（Vol, ISSN, DOI）
+- [ ] 添加通讯作者脚注（Corresponding Author）
+- [ ] 页数压缩至6页（当前7页）
+- [ ] 添加作者照片占位符（23×30mm）
+- [x] 双栏排版
+- [x] 韩文/英文摘要（各7-9行）
+- [x] 主题词5-6个
+- [x] 参考文献格式
 
-### 提交前检查清单
-- [ ] 压缩至6页
-- [x] 生成真实图表
-- [x] 验证参考文献（19篇）
+### 中文版检查清单
+- [x] 图表生成
+- [x] 参考文献验证（19篇）
 - [ ] 英文摘要润色
-- [ ] 检查格式符合期刊要求
-- [ ] 转换为HWP格式（如需要）
+- [ ] 压缩至6页
 
 ## 📚 参考文献
 
@@ -142,48 +148,64 @@ pip install matplotlib numpy
 - 物理学期刊 (PRL): 2篇
 - 会议论文 (USENIX): 1篇
 
-详见: [docs/参考文献验证报告.md](docs/参考文献验证报告.md)
+详见论文参考文献部分。
 
 ## 🔧 维护与更新
 
 ### 清理编译产物
 
 ```bash
-cd /home/severin/Codelib/SKKU/论文
+# 清理韩文版
+cd ko-KR
 rm -f output/build/*
-latexmk -C 论文初稿_中文.tex
+
+# 清理中文版
+cd ../zh-CN
+rm -f output/build/*
 ```
 
-### 重新生成所有内容
+### 重新编译
 
 ```bash
-# 1. 生成图表
-python scripts/generate_figures.py
+# 韩文版
+cd ko-KR
+xelatex -interaction=nonstopmode 韩文初稿.tex
+xelatex -interaction=nonstopmode 韩文初稿.tex
 
-# 2. 编译论文
-xelatex 论文初稿_中文.tex
-xelatex 论文初稿_中文.tex
-
-# 3. 检查输出
-ls -lh output/论文初稿_中文.pdf
-pdfinfo output/论文初稿_中文.pdf
+# 中文版
+cd ../zh-CN
+xelatex -interaction=nonstopmode 论文初稿_中文.tex
+xelatex -interaction=nonstopmode 论文初稿_中文.tex
 ```
 
-## 📖 相关文档
+## 📖 项目文档
 
-- [编译状态报告](docs/COMPILATION_STATUS.md) - 详细的编译历史和问题解决
-- [图表生成报告](docs/图表生成报告.md) - 图表数据来源和技术实现
-- [参考文献验证](docs/参考文献验证报告.md) - 文献真实性验证记录
-- [撰写总结](docs/论文撰写总结.md) - 论文撰写过程总结
+详细文档位于 `docs/` 目录。
 
 ## ⚠️ 注意事项
 
-1. **中文支持**: 必须使用XeLaTeX编译，pdfLaTeX不支持中文
-2. **图片路径**: 相对路径为`figures/`，移动文件后需更新LaTeX
-3. **编译次数**: 至少编译2次以解决交叉引用
-4. **版本控制**: 临时文件已加入.gitignore，仅提交源文件
+1. **字体要求**: 
+   - 韩文版：使用kotex包（Linux自动配置韩文字体）
+   - 中文版：使用xeCJK包（需安装中文字体）
+2. **编译器**: 必须使用XeLaTeX，pdfLaTeX不支持CJK字符
+3. **图片路径**: 所有版本共用 `shared/figures/` 目录
+4. **编译次数**: 至少2次以解决交叉引用
+5. **文件编码**: 所有.tex文件使用UTF-8编码
+
+## 🎯 下一步工作
+
+### 韩文版（投稿优先）
+1. 修改所有表格图片标题为英文
+2. 添加首页期刊信息和通讯作者标注
+3. 压缩页数至6页
+4. 提交前最终格式检查
+
+### 中文版（参考存档）
+1. 内容已完整
+2. 可选：同步韩文版修改
 
 ---
 
-**最后更新**: 2025-01-25  
-**状态**: ✅ 可编译，图表完整，文献已验证
+**最后更新**: 2026-01-25  
+**韩文版状态**: ✅ 可编译 | ⚠️ 需格式调整  
+**中文版状态**: ✅ 已完成

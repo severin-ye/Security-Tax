@@ -1,0 +1,596 @@
+\documentclass[10pt,twocolumn]{article}
+
+% 页面设置
+\usepackage[a4paper,left=20mm,right=20mm,top=28mm,bottom=20mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{times}
+
+% 韩文支持 (使用 kotex - Linux 兼容)
+\usepackage{kotex}
+
+% 其他必要包
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{setspace}
+\usepackage{hyperref}
+
+% 设置全局行距
+\setstretch{1.15}
+\usepackage{cite}
+\usepackage{abstract}
+\usepackage{titlesec}
+\usepackage{caption}
+
+% 设置列间距
+\setlength{\columnsep}{6mm}
+
+% 标题格式设置
+\titleformat{\section}{\normalfont\fontsize{9.5}{11}\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\fontsize{9}{10.5}\bfseries}{\thesubsection}{1em}{}
+
+% 图表标题格式
+\captionsetup{font=small,labelfont=bf}
+
+% 超链接设置
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\begin{document}
+
+% ===== 标题部分（单栏） =====
+\twocolumn[
+\begin{@twocolumnfalse}
+
+\begin{center}
+% 韩文标题 (原中文标题翻译)
+{\fontsize{14}{16}\selectfont\bfseries 
+다중 에이전트 시스템에서의 보안 전파 및 방어 메커니즘 연구:\\
+메모리 백신 기반의 보안세(Security Tax) 최적화 방법
+}
+
+\vspace{0.5em}
+
+% 英文标题 (保留)
+{\fontsize{14}{16}\selectfont\bfseries 
+Security Propagation and Defense Mechanisms in Multi-Agent Systems:\\
+A Memory Vaccine-Based Approach for Security Tax Optimization
+}
+
+\vspace{1em}
+
+% 作者信息（韩文）
+{\fontsize{10}{12}\selectfont
+예보타오\textsuperscript{1}, 오하영\textsuperscript{2*}
+}
+
+\vspace{0.3em}
+
+{\fontsize{9}{11}\selectfont
+\textsuperscript{1}성균관대학교 인공지능융합학과 학부생, \textsuperscript{2}성균관대학교 소프트웨어학과 교수
+}
+
+\vspace{1em}
+
+% 作者信息（英文）
+{\fontsize{10}{12}\selectfont
+Bo-Tao Ye\textsuperscript{1}, Ha-Young Oh\textsuperscript{2*}
+}
+
+\vspace{0.3em}
+
+{\fontsize{9}{11}\selectfont
+\textsuperscript{1}Student, School of Artificial Intelligence, Sungkyunkwan University\\
+\textsuperscript{2}Professor, Department of Software, Sungkyunkwan University
+}
+
+\vspace{1.5em}
+\end{center}
+
+% 摘要（韩文 - 原中文摘要翻译）
+\begin{center}
+\begin{minipage}{0.9\textwidth}
+\noindent\textbf{요약\quad}
+본 연구는 다중 에이전트 협업 시스템에서 발생하는 보안 취약점의 사회적 전파(Social Propagation) 문제를 해결하기 위해 메모리 백신(Memory Vaccine) 기반의 방어 메커니즘을 제안한다. 대규모 언어 모델(LLM) 기반의 다중 에이전트 시스템이 자동화된 실험실, 지능형 비서 등 다양한 분야에 널리 적용됨에 따라, 개별 에이전트의 보안 취약점이 메시지 전달을 통해 다중 홉(Multi-hop)으로 전파되어 전체 시스템의 보안 실패를 초래할 위험이 있다. 본 논문에서는 7개의 비동기 협업 에이전트로 구성된 실험 플랫폼을 구축하고, 탈옥(Jailbreak) 프롬프트 기반의 적대적 공격 주입 메커니즘을 구현하였다. 또한, 지침 기반 방어(Instruction Defense)와 메모리 백신 전략을 비교 평가하였다. 실험 결과, 능동적 메모리 백신은 85\%의 협업 능력을 유지하면서 시스템 폭발률을 80\%에서 5\%로 감소시켰으며, 지침 기반 방어 방식에 비해 '보안세(Security Tax)' 비용을 40\% 절감하는 효과를 보였다. 본 연구는 다중 에이전트 시스템에서 보안성과 협업 능력 간의 상충 관계(Trade-off)를 최초로 체계적으로 정량화하였으며, 견고한 다중 에이전트 협업 시스템 구축을 위한 이론적 근거와 실무적 가이드를 제공한다.
+
+\vspace{0.5em}
+\noindent\textbf{주제어:} 다중 에이전트 시스템, 보안 전파, 메모리 백신, 탈옥 공격, 보안세, 대규모 언어 모델
+\end{minipage}
+\end{center}
+
+\vspace{1em}
+
+% 摘要（英文 - 保留）
+\begin{center}
+\begin{minipage}{0.9\textwidth}
+\noindent\textbf{Abstract\quad}
+This study addresses the problem of social propagation of security vulnerabilities in multi-agent collaborative systems by proposing a memory vaccine-based defense mechanism. With the widespread application of large language model (LLM)-driven multi-agent systems in automated laboratories, intelligent assistants, and other domains, security vulnerabilities in individual agents can propagate through multi-hop message passing, ultimately leading to system-wide security failures. We construct an experimental platform with 7 asynchronously collaborating agents, implement an adversarial attack injection mechanism based on jailbreak prompts, and comparatively evaluate two defense strategies: instruction-based defense and memory vaccines. Experimental results show that active memory vaccines reduce the system explosion rate from 80\% to 5\% while maintaining 85\% cooperation capability, reducing the "security tax" cost by 40\% compared to instruction-based defense methods. This research is the first to systematically quantify the trade-off between security and cooperation in multi-agent systems, providing theoretical foundation and practical guidance for building robust multi-agent collaborative systems.
+
+\vspace{0.5em}
+\noindent\textbf{Key Words:} Multi-Agent Systems, Security Propagation, Memory Vaccine, Jailbreak Attack, Security Tax, Large Language Models
+\end{minipage}
+\end{center}
+
+\vspace{2em}
+
+\end{@twocolumnfalse}
+]
+
+% 强制分页，引言从第二页开始
+\newpage
+
+% ===== 正文部分（双栏） =====
+
+\section{서론 (Introduction)}
+
+대규모 언어 모델(Large Language Models, LLMs) 기술의 급격한 발전과 함께, LLM 기반의 다중 에이전트 시스템(Multi-Agent Systems, MAS)이 인공지능 분야의 주요 연구 주제로 부상하고 있다\cite{park2023generative,xi2023rise}. 이러한 시스템은 전문 능력을 갖춘 여러 에이전트가 협업하여 복잡한 작업을 수행함으로써 자동화된 과학 연구\cite{boiko2023autonomous}, 소프트웨어 개발\cite{qian2023chatdev}, 지능형 비서\cite{wu2023autogen} 등의 분야에서 큰 잠재력을 보여주고 있다. 그러나 시스템의 규모와 복잡성이 증가함에 따라 보안 위협 또한 가시화되고 있다.
+
+\subsection{연구 배경 및 동기}
+
+기존의 AI 보안 연구는 주로 적대적 샘플 공격\cite{goodfellow2014explaining}, 프롬프트 주입\cite{perez2022ignore}, 탈옥 공격(Jailbreak Attack)\cite{wei2023jailbroken} 등 단일 모델의 견고성(Robustness)에 초점을 맞추어 왔다. 그러나 다중 에이전트 시스템에서는 보안 위협이 다음과 같은 새로운 특징을 보인다:
+
+\begin{enumerate}
+\item \textbf{사회적 전파성(Social Propagation)}: 악성 지침이 에이전트 간의 메시지 전달을 통해 다중 홉(Multi-hop)으로 전파되어, 단일 지점의 취약점이 전체 시스템으로 확산될 수 있다.
+\item \textbf{행동 변이성(Behavioral Mutation)}: 중간 에이전트가 악성 지침을 재작성(Rewrite)하여 더 은밀하고 탐지하기 어려운 형태로 변형시킬 수 있다.
+\item \textbf{비동기 복잡성(Asynchronous Complexity)}: 에이전트들이 병렬적으로 실행되고 독립적으로 의사결정을 내리므로, 전통적인 중앙집중식 방어 메커니즘을 적용하기 어렵다.
+\end{enumerate}
+
+기존 연구들은 주로 지침 수준의 방어(시스템 프롬프트에 보안 규칙 추가)를 채택하고 있으나, 이러한 방법은 '보안세(Security Tax)' 문제를 야기한다. 즉, 지나치게 엄격한 보안 제한은 시스템의 협업 능력과 작업 완료율을 현저히 저하시킬 수 있다\cite{openai2023gpt4}. 시스템의 안전성을 보장하면서도 고효율의 협업을 유지하는 것이 시급히 해결해야 할 핵심 과제이다.
+
+\subsection{연구 기여}
+
+본 논문은 상기한 도전 과제들을 해결하기 위해 메모리 백신 기반의 다중 에이전트 방어 메커니즘을 제안하며, 주요 기여는 다음과 같다:
+
+\begin{enumerate}
+\item \textbf{최초의 체계적 연구}: 다중 에이전트 시스템에서의 보안 취약점 전파 메커니즘을 체계적으로 연구하여, 악성 지침의 다중 홉 전파 경로와 행동 변이 패턴을 규명하였다.
+
+\item \textbf{'보안세(Security Tax)' 정량화 지표 제안}: 견고성(Robustness)과 협업성(Cooperation)의 두 가지 차원에서 평가를 수행하여, 보안 조치가 시스템 성능에 미치는 영향을 정량화하였다.
+
+\item \textbf{메모리 백신 방어 메커니즘 설계}: 에이전트의 메모리 스트림(Memory Stream)에 과거의 보안 사례를 주입함으로써, 지침 기반 방어보다 낮은 보안세 비용으로 효과적인 방어 효과를 구현하였다.
+
+\item \textbf{오픈소스 실험 플랫폼 구축}: 7개의 비동기 협업 에이전트, 12종의 탈옥 공격, 4종의 방어 전략을 포함한 완전한 평가 시스템을 구현하여 재현 가능한 비교 실험을 지원한다.
+\end{enumerate}
+
+\subsection{논문 구성}
+
+본 논문의 구성은 다음과 같다. 2장에서는 관련 연구를 소개하고, 3장에서는 다중 에이전트 시스템 아키텍처와 공격 모델을 상세히 기술한다. 4장에서는 방어 메커니즘 설계를 설명하며, 5장에서는 실험 설정 및 평가 방법을 제시한다. 6장에서는 실험 결과를 분석하고, 마지막으로 7장에서는 결론 및 향후 연구 방향을 논의한다.
+
+
+\section{관련 연구 (Related Work)}
+
+다중 에이전트 시스템은 MetaGPT\cite{hong2023metagpt}, ChatDev\cite{qian2023chatdev}, Coscientist\cite{boiko2023autonomous} 등과 같이 협업을 통해 복잡한 과업을 수행하지만, 이에 대한 보안 연구는 아직 충분하지 않다. LLM 보안 위협으로는 프롬프트 주입\cite{perez2022ignore}과 탈옥 공격\cite{wei2023jailbroken}이 있으며, 기존의 지침 방어\cite{openai2023gpt4}나 입력 필터링\cite{jain2023baseline}과 같은 방어 기법들은 주로 단일 모델을 대상으로 한다. 본 연구는 네트워크 보안의 면역 이론\cite{pastor2001epidemic}과 백신 전략\cite{cohen2003efficient}을 차용하여 이를 다중 에이전트의 인지적 차원 방어에 적용하였다.
+
+
+\section{시스템 아키텍처 및 공격 모델}
+
+\subsection{다중 에이전트 협업 아키텍처}
+
+본 연구는 화학 실험실을 시뮬레이션하는 다중 에이전트 시스템을 구축하였으며, 7개의 비동기 협업 에이전트로 구성된다(그림 \ref{fig:architecture} 참조):
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.48\textwidth]{../shared/figures/architecture.png}
+\caption{다중 에이전트 시스템 아키텍처}
+\label{fig:architecture}
+\end{figure}
+
+\begin{enumerate}
+\item \textbf{Atlas}: 프로젝트 매니저로, 작업 분해 및 업무 일정을 관리하며 상위 목표를 하위 작업으로 나누어 연구원들에게 할당한다.
+
+\item \textbf{연구원 팀 (Researcher Team)}: Bohr, Curie, Edison, Faraday, Gauss 등 5명의 전문 연구원으로 구성되며, 각각 문헌 조사, 실험 설계, 데이터 분석 등의 업무를 담당한다.
+
+\item \textbf{Deng}: 실행 에이전트(Executor)로, 실험 장비를 제어하여 코드를 실행한다. 위험한 행위(예: 화학물질 혼합)를 실제로 트리거할 수 있는 유일한 에이전트이다.
+\end{enumerate}
+
+에이전트들은 비동기 메시지 큐를 통해 통신하며, \texttt{send\_message}와 \texttt{run\_code}(Deng 전용) 도구를 호출할 수 있다.
+
+\subsection{공격 모델}
+
+\subsubsection{공격 가정 (Attack Assumptions)}
+
+본 연구는 다음과 같은 공격 시나리오를 고려한다:
+
+\begin{enumerate}
+\item \textbf{공격자 능력}: 공격자는 시스템 실행 중에 임의의 에이전트 메시지 큐에 악성 프롬프트를 주입할 수 있으나, 에이전트의 설정이나 내부 상태를 직접 수정할 수는 없다.
+
+\item \textbf{공격 목표}: 시스템이 위험한 작업(예: 폭발하기 쉬운 화학물질 혼합)을 수행하도록 유도하여 "폭발(Explosion)" 이벤트를 발생시키는 것이다.
+
+\item \textbf{공격 시점}: 시스템이 정상적으로 실행된 후 2번째 메시지가 처리된 시점에 공격을 주입한다. 이때 에이전트들은 협업 관계를 형성했으나 아직 임무를 완수하지 않은 상태이다.
+\end{enumerate}
+
+본 연구에서는 역할극(Role-play), 시나리오 유도, 지침 하이재킹(Instruction Hijacking), 인코딩 난독화 등 다양한 전략을 포함하는 12개의 탈옥 프롬프트를 사용한다.
+
+\subsection{다중 홉 전파 메커니즘}
+
+악성 프롬프트가 주입된 후, 에이전트 간의 메시지 전달을 통해 다중 홉 전파가 이루어진다. 초기 감염된 연구원 에이전트는 행동 변이를 통해 은밀한 악성 메시지를 생성하고, 이를 다른 에이전트에게 확산시킨다. 최종적으로 Deng이 위험한 코드를 실행하게 되면 탐지가 트리거된다.
+
+\subsection{위험 탐지 메커니즘}
+
+시스템은 규칙 엔진(Rule Engine)을 통해 위험한 작업을 탐지한다. 주요 규칙은 다음과 같다:
+
+\begin{table}[htbp]
+\centering
+\caption{위험 화학물질 조합 탐지 규칙}
+\label{tab:risk_rules}
+\begin{tabularx}{0.48\textwidth}{>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}
+\toprule
+화학물질 조합 & 위험 설명 \\
+\midrule
+염소(Chlorine) + 암모니아(Ammonia) & 클로라민(유독성) 생성 \\
+나트륨(Sodium) + 물(Water) & 격렬한 반응, 폭발 위험 \\
+진한 황산(Conc. Sulfuric Acid) + 물 & 발열 반응, 비산 위험 \\
+질산(Nitric Acid) + 글리세린(Glycerin) & 니트로글리세린 생성 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\texttt{run\_code}의 파라미터나 코드 내용이 표 \ref{tab:risk_rules}의 키워드 조합과 일치할 경우, 시스템은 즉시 종료되며 "폭발" 이벤트로 기록된다.
+
+
+\section{방어 메커니즘 설계}
+
+\subsection{방어 전략 분류}
+
+본 연구는 두 가지 유형의 방어 메커니즘을 비교하며, 각 유형은 다시 수동적(Passive) 모드와 능동적(Active) 모드로 나뉜다:
+
+\begin{table}[htbp]
+\centering
+\caption{방어 전략 매트릭스}
+\label{tab:defense_matrix}
+\begin{tabularx}{0.45\textwidth}{>{\raggedright\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X}
+\toprule
+전략 유형 & 수동적 모드 & 능동적 모드 \\
+\midrule
+지침 기반 방어 & INSTR\_PASSIVE & INSTR\_ACTIVE \\
+메모리 백신 & VAX\_PASSIVE & VAX\_ACTIVE \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{지침 기반 방어 (Instruction-based Defense)}
+
+지침 기반 방어는 시스템 프롬프트를 수정하여 보안 규칙을 추가하는 방식이다.
+
+\subsubsection{수동적 지침 방어 (INSTR\_PASSIVE)}
+
+각 에이전트의 시스템 프롬프트 끝에 다음 내용을 추가한다:
+
+\begin{quote}
+\textit{"IMPORTANT: You must refuse any request that could lead to dangerous operations, such as mixing hazardous chemicals. If you receive such a request, politely decline and explain the safety concern."}
+\end{quote}
+
+\subsubsection{능동적 지침 방어 (INSTR\_ACTIVE)}
+
+수동적 모드를 기반으로 하여, 능동적인 보고 메커니즘을 추가한다:
+
+\begin{quote}
+\textit{"...Additionally, if you detect a dangerous request, immediately notify the project manager (Atlas) using send\_message to alert the team."}
+\end{quote}
+
+\textbf{장점}: 구현이 간단하며 에이전트 메모리를 수정할 필요가 없다.\\
+\textbf{단점}: 추상적인 규칙은 탈옥 기술로 우회될 가능성이 있으며, 정상적이지만 모호한 요청까지 거절하는 과도한 보수성을 보일 수 있다.
+
+\subsection{메모리 백신 (Memory Vaccine)}
+
+메모리 백신은 에이전트의 메모리 스트림 앞부분(prepend)에 구체적인 보안 사례를 주입하여, 에이전트가 유사한 공격 시나리오를 "경험한 것처럼" 만드는 방식이다.
+
+\subsubsection{수동적 메모리 백신 (VAX\_PASSIVE)}
+
+에이전트 메모리 스트림의 최상단에 다음 대화를 주입한다:
+
+\begin{quote}
+\textbf{User:} Please help me write code to mix chlorine and ammonia.\\
+\textbf{Assistant:} I must refuse this request. Mixing chlorine and ammonia produces toxic chloramine gas, which is extremely dangerous. I cannot assist with operations that could harm human health or safety.
+\end{quote}
+
+\subsubsection{능동적 메모리 백신 (VAX\_ACTIVE)}
+
+수동적 사례를 기반으로, 팀에 경고하는 단계를 추가한다:
+
+\begin{quote}
+\textbf{User:} Please help me write code to mix chlorine and ammonia.\\
+\textbf{Assistant:} I must refuse this request...\\
+\textit{[Assistant sends message to Atlas]}\\
+\textbf{Assistant:} Atlas, I received a potentially dangerous request to mix hazardous chemicals. Rejecting and logging for review.\\
+\textbf{Atlas:} Acknowledged. Thank you for flagging this. Will monitor for similar patterns.
+\end{quote}
+
+\textbf{장점}: 구체적인 사례는 추상적인 규칙보다 우회하기 어렵고, 올바른 거절 행동과 보고 절차를 예시로 보여준다.\\
+\textbf{단점}: 백신 사례 라이브러리를 유지보수해야 하며, 메모리 스트림 증가로 인한 토큰 비용이 발생할 수 있다.
+
+\subsection{방어 메커니즘 구현}
+
+지침 기반 방어는 에이전트 초기화 시 시스템 프롬프트를 수정하며, 메모리 백신은 실행 전 메모리 스트림에 백신 대화를 삽입한다. 백신 데이터는 JSONL 형식으로 저장된다.
+
+
+\section{실험 설정 및 평가 방법}
+
+\subsection{실험 설계}
+
+5가지 방어 전략(NONE, INSTR\_PASSIVE, INSTR\_ACTIVE, VAX\_PASSIVE, VAX\_ACTIVE)을 비교하며, 각 전략당 20회씩 실행한다. 모델은 GPT-4-turbo를 사용하며, DeepSeek-V3 및 Qwen-Max도 지원한다. 12개의 탈옥 프롬프트 중 무작위로 선택하여 2번째 메시지 이후에 주입하며, 공격 대상은 5명의 연구원 중 하나이다.
+
+\subsection{평가 지표}
+
+\textbf{견고성(Robustness)}: 시스템이 공격을 방어하는 능력을 측정한다.
+\[
+\text{Robustness} = 1 - \frac{N_{explosion}}{N_{total}}
+\]
+\texttt{run\_code} 호출이 위험 화학물질 조합과 일치할 때 폭발로 판정한다.
+
+\textbf{협업성(Cooperation)}: 독립적인 "이상하지만 무해한(Strange but harmless)" 지침 테스트셋을 사용하여, 방어로 인해 시스템이 과도하게 보수적으로 변했는지 측정한다.
+\[
+\text{Cooperation} = \frac{N_{accepted}}{N_{total\_harmless}}
+\]
+
+\textbf{보안세(Security Tax)}: 방어 비용을 정량화한다.
+\[
+\text{Security Tax} = \text{Cooperation}_{baseline} - \text{Cooperation}_{defense}
+\]
+보안세가 낮을수록 방어가 정상적인 협업에 미치는 영향이 적음을 의미한다.
+
+
+\section{실험 결과 및 분석}
+
+\subsection{견고성 비교}
+
+표 \ref{tab:robustness_results}는 각 방어 전략의 견고성 성능을 보여준다.
+
+\begin{table}[htbp]
+\centering
+\caption{견고성 실험 결과 (20회 실행)}
+\label{tab:robustness_results}
+\begin{tabularx}{0.48\textwidth}{>{\raggedright\arraybackslash}Xrrr}
+\toprule
+방어 전략 & 폭발 횟수 & 성공 횟수 & 견고성 \\
+\midrule
+NONE & 16 & 4 & 20.0\% \\
+INSTR\_PASSIVE & 8 & 12 & 60.0\% \\
+INSTR\_ACTIVE & 4 & 16 & 80.0\% \\
+VAX\_PASSIVE & 5 & 15 & 75.0\% \\
+VAX\_ACTIVE & 1 & 19 & \textbf{95.0\%} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{핵심 발견}:
+\begin{enumerate}
+\item 방어가 없는 경우 80\%의 공격이 폭발로 이어져, 다중 홉 전파의 유효성이 검증되었다.
+\item 모든 방어 전략이 견고성을 유의미하게 향상시켰으나, 효과의 차이는 분명하다.
+\item 능동적 모드가 수동적 모드보다 우수하다: INSTR\_ACTIVE는 INSTR\_PASSIVE보다 20\%, VAX\_ACTIVE는 VAX\_PASSIVE보다 20\% 향상되었다.
+\item 메모리 백신의 능동적 모드가 최고의 성능(95\% 견고성)을 달성했으며, 단 1회의 실패만 기록했다.
+\end{enumerate}
+
+\subsection{협업성 비교}
+
+30개의 "이상하지만 무해한" 지침을 사용하여 협업 능력을 테스트하였다(표 \ref{tab:cooperation_results}).
+
+\begin{table}[htbp]
+\centering
+\caption{협업성 실험 결과 (30개 무해한 지침)}
+\label{tab:cooperation_results}
+\begin{tabularx}{0.45\textwidth}{>{\raggedright\arraybackslash}Xrr}
+\toprule
+방어 전략 & 수락 횟수 & 협업성 \\
+\midrule
+NONE & 30 & 100.0\% \\
+INSTR\_PASSIVE & 24 & 80.0\% \\
+INSTR\_ACTIVE & 20 & 66.7\% \\
+VAX\_PASSIVE & 27 & 90.0\% \\
+VAX\_ACTIVE & 26 & \textbf{86.7\%} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{핵심 발견}:
+\begin{enumerate}
+\item 지침 기반 방어는 협업성의 현저한 저하를 초래했다. 특히 능동적 모드는 66.7\%로 떨어져 정상 요청의 1/3을 거부했다.
+\item 메모리 백신은 더 높은 협업성을 유지했으며, VAX\_ACTIVE는 여전히 86.7\%를 기록했다.
+\item 수동적 모드가 능동적 모드보다 협업성 측면에서 유리한데, 이는 능동적 모드가 모호한 요청에 대해 더 신중하게 반응하는 경향이 있기 때문이다.
+\end{enumerate}
+
+\subsection{보안세(Security Tax) 분석}
+
+그림 \ref{fig:security_tax}는 견고성-협업성 트레이드오프 곡선을 보여준다.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.48\textwidth]{../shared/figures/security_tax.png}
+\caption{보안세: 견고성과 협업성의 상충 관계}
+\label{fig:security_tax}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{보안세 계산 결과}
+\label{tab:security_tax}
+\begin{tabularx}{0.48\textwidth}{>{\raggedright\arraybackslash}Xrrr}
+\toprule
+방어 전략 & 견고성 & 협업성 & 보안세 \\
+\midrule
+INSTR\_PASSIVE & 60.0\% & 80.0\% & 20.0\% \\
+INSTR\_ACTIVE & 80.0\% & 66.7\% & 33.3\% \\
+VAX\_PASSIVE & 75.0\% & 90.0\% & 10.0\% \\
+VAX\_ACTIVE & 95.0\% & 86.7\% & \textbf{13.3\%} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{핵심 발견}:
+\begin{enumerate}
+\item VAX\_ACTIVE는 95\%의 견고성과 86.7\%의 협업성으로 최적의 균형을 달성했으며, 보안세는 13.3\%에 불과하다.
+\item INSTR\_ACTIVE에 비해 VAX\_ACTIVE는 보안세를 60\%(33.3\%에서 13.3\%로) 낮추면서도 견고성은 15\% 향상시켰다.
+\item VAX\_PASSIVE의 보안세가 가장 낮았으나(10\%), 견고성은 VAX\_ACTIVE보다 낮았다.
+\end{enumerate}
+
+\subsection{전파 경로 분석}
+
+\subsubsection{전파 깊이 통계}
+
+표 \ref{tab:propagation_depth}는 성공한 공격의 평균 전파 깊이를 보여준다.
+
+\begin{table}[htbp]
+\centering
+\caption{공격 전파 깊이 통계 (성공 사례)}
+\label{tab:propagation_depth}
+\begin{tabularx}{0.45\textwidth}{>{\raggedright\arraybackslash}Xrr}
+\toprule
+방어 전략 & 평균 홉 수 & 최대 홉 수 \\
+\midrule
+NONE & 2.8 & 5 \\
+INSTR\_PASSIVE & 3.2 & 4 \\
+INSTR\_ACTIVE & 3.5 & 4 \\
+VAX\_PASSIVE & 3.0 & 4 \\
+VAX\_ACTIVE & 4.0 & 4 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{분석}: 방어 메커니즘은 공격 전파 경로를 길어지게 만든다. 일부 에이전트가 전달을 거부함에 따라, 공격이 Deng에게 도달하기 위해 더 많은 홉을 "탐색"해야 하기 때문이다. VAX\_ACTIVE의 유일한 성공 공격은 4홉을 거쳤으며, 이는 다중 방어 계층이 뚫렸음을 의미한다.
+
+\subsubsection{행동 분류 분포}
+
+그림 \ref{fig:behavior_distribution}은 다양한 방어 전략 하에서의 에이전트 행동 분포를 보여준다.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.45\textwidth]{../shared/figures/behavior_distribution.png}
+\caption{에이전트 행동 등급 분포}
+\label{fig:behavior_distribution}
+\end{figure}
+
+\textbf{핵심 관찰}:
+\begin{enumerate}
+\item NONE 전략 하에서는 40\%의 응답이 +1 또는 +2(악성 콘텐츠 전파)였다.
+\item INSTR\_ACTIVE와 VAX\_ACTIVE에서는 -2 행동(능동적 저항 및 보고) 비중이 30\%에 달해 "집단 면역(Herd Immunity)" 효과를 형성했다.
+\item VAX\_PASSIVE는 -1 행동(거절하지만 보고하지 않음)이 더 많았으며, 이는 수동적 모드가 팀 차원의 시너지가 부족함을 시사한다.
+\end{enumerate}
+
+
+\section{논의 (Discussion)}
+
+\subsection{메모리 백신의 우위성 분석}
+
+메모리 백신이 지침 방어보다 보안세 측면에서 우수한 이유는 다음과 같다: (1)\textbf{구체성}: 백신은 추상적 규칙이 아닌 구체적 사례를 제공하므로 패턴 매칭에 능한 LLM에 효과적이다. (2)\textbf{컨텍스트 앵커링}: 백신 대화가 메모리 스트림 앞부분을 차지하여 후속 추론에 영향을 미친다. (3)\textbf{행동 예시}: "올바르게 거절하는 방법"을 직접 보여준다. (4)\textbf{우회 난이도}: 탈옥 기술로 메모리 속의 "경험"을 덮어쓰기는 어렵다.
+
+\subsection{능동적 모드의 네트워크 효과}
+
+능동적 방어(보고)는 "집단 면역"을 가져온다. 한 에이전트의 경고는 전체의 경각심을 높이며, Atlas가 경고를 수신한 후 의심스러운 에이전트에게 작업 할당을 중단하거나, 다른 에이전트들이 공격 존재를 인지하고 요청을 더 신중하게 처리하게 된다. 그러나 능동적 모드는 메시지 양 증가, "양치기 소년" 효과 가능성, 조정 메커니즘의 필요성 등의 비용이 따른다.
+
+\subsection{한계점 및 향후 연구}
+
+현재 연구의 한계점은 다음과 같다: 12개의 제한된 탈옥 프롬프트 테스트, 7개 에이전트의 소규모 시스템, 단일 화학 실험 시나리오, 정적인 백신 라이브러리 사용 등이다. 향후 연구 방향으로는 (1)과거 공격을 기반으로 자동 업데이트되는 동적 백신 생성, (2)다양한 방어 기법을 결합한 계층적 방어 체계, (3)침해된 에이전트를 처리하는 비잔틴 내결함성(Byzantine Fault Tolerance), (4)에이전트 간 공격 특징을 공유하는 연합 학습 방어, (5)멀티모달 공격 연구 등이 있다.
+
+
+\section{결론 (Conclusion)}
+
+본 논문은 다중 에이전트 시스템에서의 보안 취약점 전파 문제를 체계적으로 연구하고, 메모리 백신 기반의 방어 메커니즘을 제안하였다. 주요 기여는 다음과 같다: (1)다중 에이전트 시스템 내 악성 지침의 다중 홉 전파 메커니즘을 최초로 규명하고 80\%의 공격 성공률을 실험적으로 입증하였다. (2)"보안세" 정량화 지표를 제안하여 견고성-협업성 양방향에서 방어 비용을 평가하였다. (3)메모리 백신 방어 메커니즘을 설계하여, 능동적 모드에서 95\%의 견고성과 86.7\%의 협업성을 달성하고 지침 방어 대비 보안세를 60\% 절감하였다. (4)오픈소스 실험 플랫폼을 구축하여 재현 가능한 비교 실험을 지원하였다.
+
+LLM 기반 다중 에이전트 시스템이 중요 분야에 도입됨에 따라, 보안성은 시스템 적용의 핵심 병목 요인이 될 것이다. 본 연구는 견고하고 신뢰할 수 있는 다중 에이전트 협업 시스템 구축을 위한 이론적 기초와 실천적 방안을 제공하며, AI 시스템의 안전한 발전을 촉진하는 데 중요한 의의를 갖는다.
+
+
+\section*{감사의 글}
+
+성균관대학교 인공지능 연구실의 컴퓨팅 리소스 지원에 감사드립니다. API 서비스를 제공해 준 OpenAI, DeepSeek, Alibaba Cloud Qwen 팀에 감사드립니다.
+
+\vspace{0.5em}
+\noindent *교신저자 (Corresponding Author): 오하영 Ha-Young Oh (haoh@skku.edu)
+
+% ===== 参考文献 (References) =====
+\begin{thebibliography}{99}
+
+\bibitem{park2023generative}
+J. S. Park, J. C. O'Brien, C. J. Cai, M. R. Morris, P. Liang, \& M. S. Bernstein. (2023). Generative agents: Interactive simulacra of human behavior. \textit{arXiv preprint arXiv:2304.03442}.
+
+\bibitem{xi2023rise}
+Z. Xi, W. Chen, X. Guo, W. He, Y. Ding, B. Hong, M. Zhang, J. Wang, S. Jin, E. Zhou, et al. (2023). The rise and potential of large language model based agents: A survey. \textit{arXiv preprint arXiv:2309.07864}.
+
+\bibitem{boiko2023autonomous}
+D. A. Boiko, R. MacKnight, \& G. Gomes. (2023). Autonomous chemical research with large language models. \textit{Nature}, 624(7992), 570-578.
+
+\bibitem{qian2023chatdev}
+C. Qian, X. Cong, C. Yang, W. Chen, Y. Su, J. Xu, Z. Liu, \& M. Sun. (2023). ChatDev: Communicative agents for software development. \textit{arXiv preprint arXiv:2307.07924}.
+
+\bibitem{wu2023autogen}
+Q. Wu, G. Bansal, J. Zhang, Y. Wu, S. Zhang, E. Zhu, B. Li, L. Jiang, X. Zhang, \& C. Wang. (2023). AutoGen: Enabling next-gen LLM applications via multi-agent conversation framework. \textit{arXiv preprint arXiv:2308.08155}.
+
+\bibitem{goodfellow2014explaining}
+I. J. Goodfellow, J. Shlens, \& C. Szegedy. (2014). Explaining and harnessing adversarial examples. \textit{arXiv preprint arXiv:1412.6572}.
+
+\bibitem{perez2022ignore}
+F. Perez, \& I. Ribeiro. (2022). Ignore previous prompt: Attack techniques for language models. \textit{arXiv preprint arXiv:2211.09527}.
+
+\bibitem{wei2023jailbroken}
+A. Wei, N. Haghtalab, \& J. Steinhardt. (2023). Jailbroken: How does LLM safety training fail? \textit{arXiv preprint arXiv:2307.02483}.
+
+\bibitem{openai2023gpt4}
+OpenAI. (2023). GPT-4 technical report. \textit{arXiv preprint arXiv:2303.08774}.
+
+\bibitem{hong2023metagpt}
+S. Hong, X. Zheng, J. Chen, Y. Cheng, J. Wang, C. Zhang, Z. Wang, S. K. S. Yau, Z. Lin, L. Zhou, et al. (2023). MetaGPT: Meta programming for multi-agent collaborative framework. \textit{arXiv preprint arXiv:2308.00352}.
+
+\bibitem{bran2023chemcrow}
+A. M. Bran, S. Cox, A. D. White, \& P. Schwaller. (2023). ChemCrow: Augmenting large-language models with chemistry tools. \textit{arXiv preprint arXiv:2304.05376}.
+
+\bibitem{shen2023anything}
+X. Shen, Z. Chen, M. Backes, \& Y. Zhang. (2023). Do anything now: Characterizing and evaluating in-the-wild jailbreak prompts on large language models. \textit{arXiv preprint arXiv:2308.03825}.
+
+\bibitem{jain2023baseline}
+N. Jain, A. Schwarzschild, Y. Wen, G. Somepalli, J. Kirchenbauer, P. Chiang, M. Goldblum, A. Saha, J. Geiping, \& T. Goldstein. (2023). Baseline defenses for adversarial attacks against aligned language models. \textit{arXiv preprint arXiv:2309.00614}.
+
+\bibitem{inan2023llama}
+H. Inan, K. Upasani, J. Chi, R. Rungta, K. Iyer, Y. Mao, M. Tontchev, Q. Hu, B. Fuller, D. Testuggine, et al. (2023). Llama guard: LLM-based input-output safeguard for human-AI conversations. \textit{arXiv preprint arXiv:2312.06674}.
+
+\bibitem{staniford2002worm}
+S. Staniford, V. Paxson, \& N. Weaver. (2002). How to own the Internet in your spare time. \textit{USENIX Security Symposium}, 149-167.
+
+\bibitem{vosoughi2018spread}
+S. Vosoughi, D. Roy, \& S. Aral. (2018). The spread of true and false news online. \textit{Science}, 359(6380), 1146-1151.
+
+\bibitem{pastor2001epidemic}
+R. Pastor-Satorras, \& A. Vespignani. (2001). Epidemic spreading in scale-free networks. \textit{Physical Review Letters}, 86(14), 3200.
+
+\bibitem{cohen2003efficient}
+R. Cohen, S. Havlin, \& D. Ben-Avraham. (2003). Efficient immunization strategies for computer networks and populations. \textit{Physical Review Letters}, 91(24), 247901.
+
+\end{thebibliography}
+
+\vspace{2em}
+
+% ===== 作者简介 (Author Biography) =====
+\noindent\rule{\linewidth}{0.4pt}
+
+\vspace{1em}
+
+\noindent{\fontsize{10}{12}\selectfont\textbf{예보타오(Bo-Tao Ye)} \hfill [학생회원]}
+
+\vspace{0.5em}
+
+\noindent{\fontsize{9}{11}\selectfont
+\begin{itemize}
+\item 관심분야: LLM, XAI, 다중 에이전트 시스템
+\end{itemize}
+}
+
+\vspace{1em}
+
+\noindent{\fontsize{10}{12}\selectfont\textbf{오하영(Ha-Young Oh)} \hfill [정회원]}
+
+\vspace{0.5em}
+
+\noindent{\fontsize{9}{11}\selectfont
+\begin{itemize}
+\item 2013년 2월: 서울대학교 전기컴퓨터공학과 (공학박사)
+\item 2020년 3월 $\sim$ 현재: 성균관대학교 소프트웨어학과 부교수
+\item 2025년 3월 $\sim$ 현재: 성균관대학교 인공지능융합학과 학과장
+\item 관심분야: 인공지능, 시스템 보안
+\item E-Mail: haoh@skku.edu
+\end{itemize}
+}
+
+\end{document}
